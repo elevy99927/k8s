@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: 2pods-shared-vol
+spec:
+  containers:
+  - image: alpine
+    imagePullPolicy: IfNotPresent
+    name: app1 
+    command: [    'sh', '-c', 'echo Container 1 myapp ; sleep 3600']
+    volumeMounts:
+    - mountPath: /share
+      name: demo-volume
+  - image: alpine
+    imagePullPolicy: IfNotPresent
+    name: app2
+    command: [    'sh', '-c', 'echo Container 2 myapp ; sleep 3600']
+    volumeMounts:
+    - mountPath: /share2
+      name: demo-volume
+  volumes:
+  - name: demo-volume
+    emptyDir: {}
