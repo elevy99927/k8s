@@ -1,0 +1,29 @@
+kind: VirtualService
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  name: helloworld
+  namespace: default
+spec:
+  hosts:
+    - k8s.levys.co.il
+  gateways:
+    - helloworld-gateway
+  http:
+    - match:
+        - uri:
+            exact: /hello
+      route:
+        - destination:
+            host: helloworld
+            port:
+              number: 5000
+    - match:
+        - uri:
+            prefix: /animals
+      route:
+        - destination:
+            host: animals.default.svc.cluster.local
+            port:
+              number: 80
+      rewrite:
+        uri: /

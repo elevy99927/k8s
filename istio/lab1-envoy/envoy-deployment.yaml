@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: envoy-demo
+  name: envoy-demo
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: envoy-demo
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: envoy-demo
+    spec:
+      containers:
+      - image: envoyproxy/envoy:v1.11.2
+        imagePullPolicy: Always
+        name: envoy
+        command: ["/usr/local/bin/envoy"]
+        args: ["-c","/tmp/config.yaml"]
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        volumeMounts:
+        - name: config
+          mountPath: "/tmp"
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: config
+        secret:
+          secretName: envoy-conf
+          optional: false 
+
+---
+apiVersion: v1
+data:
+  config.yaml: YWRtaW46CiAgYWNjZXNzX2xvZ19wYXRoOiAvZGV2L251bGwgIy90bXAvYWRtaW5fYWNjZXNzLmxvZwogIGFjY2Vzc19sb2c6CiAgLSBuYW1lOiBlbnZveS5hY2Nlc3NfbG9nZ2Vycy5zdGRvdXQKICAgIHR5cGVkX2NvbmZpZzoKICAgICAgIkB0eXBlIjogdHlwZS5nb29nbGVhcGlzLmNvbS9lbnZveS5leHRlbnNpb25zLmFjY2Vzc19sb2dnZXJzLnN0cmVhbS52My5TdGRvdXRBY2Nlc3NMb2cKICBhZGRyZXNzOgogICAgc29ja2V0X2FkZHJlc3M6CiAgICAgIHByb3RvY29sOiBUQ1AKICAgICAgYWRkcmVzczogMC4wLjAuMAogICAgICBwb3J0X3ZhbHVlOiA5OTAxCnN0YXRpY19yZXNvdXJjZXM6CiAgbGlzdGVuZXJzOgogIC0gbmFtZTogbGlzdGVuZXJfMAogICAgYWRkcmVzczoKICAgICAgc29ja2V0X2FkZHJlc3M6CiAgICAgICAgcHJvdG9jb2w6IFRDUAogICAgICAgIGFkZHJlc3M6IDAuMC4wLjAKICAgICAgICBwb3J0X3ZhbHVlOiAxMDAwMAogICAgZmlsdGVyX2NoYWluczoKICAgIC0gZmlsdGVyczoKICAgICAgLSBuYW1lOiBlbnZveS5odHRwX2Nvbm5lY3Rpb25fbWFuYWdlcgogICAgICAgIHR5cGVkX2NvbmZpZzoKICAgICAgICAgICJAdHlwZSI6IHR5cGUuZ29vZ2xlYXBpcy5jb20vZW52b3kuY29uZmlnLmZpbHRlci5uZXR3b3JrLmh0dHBfY29ubmVjdGlvbl9tYW5hZ2VyLnYyLkh0dHBDb25uZWN0aW9uTWFuYWdlcgogICAgICAgICAgc3RhdF9wcmVmaXg6IGluZ3Jlc3NfaHR0cAogICAgICAgICAgcm91dGVfY29uZmlnOgogICAgICAgICAgICBuYW1lOiBnb29nbGVfYW5kX3luZXRfc3BsaXRfcm91dGluZwogICAgICAgICAgICB2aXJ0dWFsX2hvc3RzOgogICAgICAgICAgICAtIG5hbWU6IGJhY2tlbmQKICAgICAgICAgICAgICBkb21haW5zOiBbIioiXQogICAgICAgICAgICAgIHJvdXRlczoKICAgICAgICAgICAgICAtIG1hdGNoOgogICAgICAgICAgICAgICAgICBwcmVmaXg6ICIvZ29vZ2xlIgogICAgICAgICAgICAgICAgcm91dGU6CiAgICAgICAgICAgICAgICAgIGNsdXN0ZXI6IHNlcnZpY2VfZ29vZ2xlCiAgICAgICAgICAgICAgICAgIHByZWZpeF9yZXdyaXRlOiAiLyIKICAgICAgICAgICAgICAgICAgaG9zdF9yZXdyaXRlOiAid3d3Lmdvb2dsZS5jb20iCiAgICAgICAgICAgICAgLSBtYXRjaDoKICAgICAgICAgICAgICAgICAgcHJlZml4OiAiL3luZXQiCiAgICAgICAgICAgICAgICByb3V0ZToKICAgICAgICAgICAgICAgICAgY2x1c3Rlcjogc2VydmljZV95bmV0CiAgICAgICAgICAgICAgICAgIHByZWZpeF9yZXdyaXRlOiAiLyIKICAgICAgICAgICAgICAgICAgaG9zdF9yZXdyaXRlOiAid3d3LnluZXQuY28uaWwiCiAgICAgICAgICBodHRwX2ZpbHRlcnM6CiAgICAgICAgICAtIG5hbWU6IGVudm95LnJvdXRlcgogIGNsdXN0ZXJzOgogIC0gbmFtZTogc2VydmljZV9nb29nbGUKICAgIGNvbm5lY3RfdGltZW91dDogMTBzCiAgICB0eXBlOiBTVFJJQ1RfRE5TCiAgICAjIENvbW1lbnQgb3V0IHRoZSBmb2xsb3dpbmcgbGluZSB0byB0ZXN0IG9uIHY2IG5ldHdvcmtzCiAgICBkbnNfbG9va3VwX2ZhbWlseTogVjRfT05MWQogICAgbGJfcG9saWN5OiBST1VORF9ST0JJTgogICAgbG9hZF9hc3NpZ25tZW50OgogICAgICBjbHVzdGVyX25hbWU6IHNlcnZpY2VfZ29vZ2xlCiAgICAgIGVuZHBvaW50czoKICAgICAgLSBsYl9lbmRwb2ludHM6CiAgICAgICAgLSBlbmRwb2ludDoKICAgICAgICAgICAgYWRkcmVzczoKICAgICAgICAgICAgICBzb2NrZXRfYWRkcmVzczoKICAgICAgICAgICAgICAgIGFkZHJlc3M6IHd3dy5nb29nbGUuY29tCiAgICAgICAgICAgICAgICBwb3J0X3ZhbHVlOiA0NDMKICAgIHRsc19jb250ZXh0OgogICAgICBzbmk6IHd3dy5nb29nbGUuY29tCiAgLSBuYW1lOiBzZXJ2aWNlX3luZXQKICAgIGNvbm5lY3RfdGltZW91dDogMTBzCiAgICB0eXBlOiBMT0dJQ0FMX0ROUwogICAgIyBDb21tZW50IG91dCB0aGUgZm9sbG93aW5nIGxpbmUgdG8gdGVzdCBvbiB2NiBuZXR3b3JrcwogICAgZG5zX2xvb2t1cF9mYW1pbHk6IFY0X09OTFkKICAgIGxiX3BvbGljeTogUk9VTkRfUk9CSU4KICAgIGxvYWRfYXNzaWdubWVudDoKICAgICAgY2x1c3Rlcl9uYW1lOiBzZXJ2aWNlX3luZXQKICAgICAgZW5kcG9pbnRzOgogICAgICAtIGxiX2VuZHBvaW50czoKICAgICAgICAtIGVuZHBvaW50OgogICAgICAgICAgICBhZGRyZXNzOgogICAgICAgICAgICAgIHNvY2tldF9hZGRyZXNzOgogICAgICAgICAgICAgICAgYWRkcmVzczogd3d3LnluZXQuY28uaWwKICAgICAgICAgICAgICAgIHBvcnRfdmFsdWU6IDQ0MwogICAgdGxzX2NvbnRleHQ6CiAgICAgIHNuaTogd3d3LnluZXQuY28uaWwK
+kind: Secret
+metadata:
+  name: envoy-conf
+  namespace: default
+type: Opaque
