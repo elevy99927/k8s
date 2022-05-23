@@ -15,9 +15,17 @@ spec:
     imagePullPolicy: IfNotPresent
     name: app2
     command: [    'sh', '-c', 'echo Container 2 myapp ; sleep 3600']
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
     volumeMounts:
     - mountPath: /share2
       name: demo-volume
   volumes:
   - name: demo-volume
-    emptyDir: {}
+    emptyDir:
+      medium: Memory     
