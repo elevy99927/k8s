@@ -18,5 +18,4 @@ spec:
         image: supergiantkir/animals:bear
         ports:
         - containerPort: 80
-      - name: bear2
-        image: nginx
+
