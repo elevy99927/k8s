@@ -1,2 +1,2 @@
-kubectl taint nodes omer-t440 applications=frontends:NoExecute
+kubectl taint nodes mynode1 applications=frontends:NoExecute
 
