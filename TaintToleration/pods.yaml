@@ -1,0 +1,83 @@
+#### Please taint your Node with applications=frontends:NoSchedule
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spring-music1
+  labels:
+    env: test
+spec:
+  containers:
+  - name: spring-app
+    image: yanivomc/spring-music:latest
+    imagePullPolicy: IfNotPresent
+  tolerations:
+    - key: "applications"
+      operator: "Exists"
+      effect: "NoSchedule"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spring-music2
+  labels:
+    env: test
+spec:
+  containers:
+  - name: spring-app
+    image: yanivomc/spring-music:latest
+    imagePullPolicy: IfNotPresent
+  tolerations:
+    - key: "applications"
+      operator: "Equal"
+      value: "frontends"
+      effect: "NoSchedule"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spring-music3
+  labels:
+    env: test
+spec:
+  containers:
+  - name: spring-app
+    image: yanivomc/spring-music:latest
+    imagePullPolicy: IfNotPresent
+  tolerations:
+    - key: "applications"
+      operator: "Exists"
+      effect: "PreferNoSchedule"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spring-music4
+  labels:
+    env: test
+spec:
+  containers:
+  - name: spring-app
+    image: yanivomc/spring-music:latest
+    imagePullPolicy: IfNotPresent
+  tolerations:
+    - key: "applications"
+      operator: "Equal"
+      value: "ui"
+      effect: "NoSchedule"
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: spring-music5
+  labels:
+    env: test
+spec:
+  containers:
+  - name: spring-app
+    image: yanivomc/spring-music:latest
+    imagePullPolicy: IfNotPresent
+  
