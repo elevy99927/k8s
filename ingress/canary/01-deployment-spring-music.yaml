@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bear-deployment
+spec:
+  selector:
+    matchLabels:
+      app: bear  
+  replicas: 1 
+  template: 
+    metadata:
+      labels:
+        app: bear
+    spec:
+      containers:
+      - name: bear
+        image: supergiantkir/animals:bear
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moose-deployment
+spec:
+  selector:
+    matchLabels:
+      app: moose  
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: moose
+    spec:
+      containers:
+      - name: moose
+        image: supergiantkir/animals:moose
+        ports:
+        - containerPort: 80
+---
+kind: Service      
+apiVersion: v1     
+metadata:
+  name: bear-svc 
+spec:
+  selector:
+    app: bear   
+  ports:          
+  - name: http    
+    protocol: TCP
+    port: 80
+    targetPort: 80
+---
+kind: Service      
+apiVersion: v1     
+metadata:
+  name: moose-svc 
+spec:
+  selector:
+    app: moose   
+  ports:          
+  - name: http    
+    protocol: TCP
+    port: 80
+    targetPort: 80

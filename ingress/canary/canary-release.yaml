@@ -1,0 +1,48 @@
+#to test it use:
+#### for i in {1..30}; do curl -s LBDNS | grep bear; done;
+#### for i in {1..30}; do curl -s LBDNS | grep moose; done;
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-canary-v2 # Only this rule will be configured with the below canary annotions!
+  annotations:
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "10"
+
+
+    #    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+       paths:
+        - path: /
+          pathType: Prefix
+
+          backend:
+            service:
+              name: bear-svc
+              port:
+                 number: 80
+                 
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-canary-v1
+
+
+    #    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+       paths:
+        - path: /
+          pathType: Prefix
+
+          backend:
+            service:
+              name: moose-svc
+              port:
+                 number: 80

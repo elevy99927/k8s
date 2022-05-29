@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: https-with-oauth2
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: www.85.64.152.188.nip.io
+    http:
+      paths:
+      - path: /moose(|$)(.*)
+        pathType: Exact
+        backend:
+          service:
+             name: moose-svc
+             port:
+                number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-hostname: www.85.64.152.188.nip.io
+  name: oauth2-proxy
+  namespace: kube-system
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: www.85.64.152.188.nip.io
+    http:
+      paths:
+      - path: /oauth2
+        pathType: Prefix
+        backend:
+          service:
+            name: oauth2-proxy
+            port:
+              number: 4180
+  tls:
+  - hosts:
+    - www.85.64.152.188.nip.io
+    #secretName: __INGRESS_SECRET__

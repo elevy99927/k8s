@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+  name: my-httpd
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: www.levys.co.il
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: httpd
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - www.levys.co.il
+    #secretName: __INGRESS_SECRET__
