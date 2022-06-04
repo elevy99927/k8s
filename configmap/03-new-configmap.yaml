@@ -1,0 +1,16 @@
+apiVersion: v1
+data:
+  index.html: |-
+    <html>
+    <head>
+        <title>A new Index.html</title>
+    </head>
+    <body bgcolor="#c0c0c0">
+        <BR> <b>Hello Nginx</b>
+        <BR> This is a new index.html
+    </body>
+    </html>
+kind: ConfigMap
+metadata:
+  name: index-html
+  namespace: default
