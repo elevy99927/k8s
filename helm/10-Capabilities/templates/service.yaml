@@ -1,0 +1,19 @@
+kind: Service     
+apiVersion: v1     
+metadata:
+  name: {{ .Release.Name }}-svc #from RELEASE NAME
+spec:
+  selector:
+    app: {{ .Release.Name }}    
+    {{- include "spring.labels" . | nindent 4}}
+  {{ if or (.Values.ingress.enabled) (eq .ingressversion "none") }}
+  type: ClusterIP
+  {{ else }}
+  type: {{ .Values.service_type }}  #from values
+  {{ end }}
+  ports:         
+  - name: http   
+    protocol: TCP
+    port: {{ .Values.pod.port }} #from Values
+    targetPort: {{ .Values.pod.target_port }}  #from values
+

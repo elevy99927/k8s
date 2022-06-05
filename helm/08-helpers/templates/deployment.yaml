@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  selector: 
+    matchLabels:
+      app: {{ .Release.Name }}
+      {{- include "spring.labels" . | nindent 6}}
+  replicas: {{ .Values.replicas }}   #from values
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        {{- include "spring.labels" . | nindent 8}}
+    spec:
+      containers:
+      - name: {{ .Release.Name }} #from values
+        image: {{ .Values.pod.image}}:{{ .Values.pod.tag }} #from values
+        ports:
+        - containerPort: {{ .Values.pod.target_port }}

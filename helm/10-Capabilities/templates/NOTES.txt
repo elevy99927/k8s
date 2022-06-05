@@ -1,0 +1,22 @@
+CHART NAME: {{ .Chart.Name }}
+CHART VERSION: {{ .Chart.Version }}
+APP VERSION: {{ .Chart.AppVersion }}
+
+
+This is a Note.txt example.
+
+{{ if .Values.ingress.enabled }}
+Your ingress version is: 
+  {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" }} 
+   networking.k8s.io/v1
+  {{- else if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" }} 
+   networking.k8s.io/v1beta1 
+  {{ end }}
+{{ else }}
+your app doesn't have ingress
+{{ end }}
+
+Your kubernetes version is: {{ .Capabilities.KubeVersion }}
+dbname: {{ .Values.database_prod.dbname | upper | quote}}
+dbtable: {{ .Values.database_prod.dbtable }}
+

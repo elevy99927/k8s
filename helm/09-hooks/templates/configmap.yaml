@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-cm
+  labels:
+  {{- include "spring.labels" . | nindent 4}}
+
+data:
+  dbname: {{ .Values.database_prod.dbname | upper | quote}}
+  dbtable: {{ .Values.database_prod.dbtable }}
+  k8s: {{ .Capabilities.KubeVersion }}
+

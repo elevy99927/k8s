@@ -1,0 +1,40 @@
+{{- $apiIsStable := eq (include "my.ingress.isStable" .) "true" -}}
+
+{{ if .Values.ingress.enabled }}
+{{ if $apiIsStable }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ing
+  labels:
+  {{- include "spring.labels" . | nindent 4}}
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+       paths:
+        - path: /
+          pathType: Prefix
+
+          backend:
+            service:
+              name: {{ .Release.Name }}-svc
+              port:
+                 number: {{ .Values.pod.port }}
+{{ else }}
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-ing
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Release.Name }}-svc
+          servicePort: {{ .Values.pod.port }}
+{{ end }}
+{{ end }}
