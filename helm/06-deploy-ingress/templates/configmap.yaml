@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-cm
+data:
+  dbname: {{ .Values.database_prod.dbname | upper | quote}}
+  dbtable: {{ .Values.database_prod.dbtable }}
+  k8s: {{ .Capabilities.KubeVersion }}
+

@@ -1,0 +1,17 @@
+database_prod:
+  dbname: "db_mysql"
+  dbtable: "music"
+database_test:
+  dbname: "db_mysql"
+  dbtable: "music"
+
+# service_type should be NodePort, ClusterIP or LoadBalancer
+service_type: ClusterIP
+replicas: 1
+
+
+pod:
+  image: "supergiantkir/animals"
+  tag: "bear"
+  target_port: 80
+  port: 80
