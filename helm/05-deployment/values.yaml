@@ -1,0 +1,17 @@
+database_prod:
+  dbname: "db_mysql"
+  dbtable: "music"
+database_test:
+  dbname: "db_mysql"
+  dbtable: "music"
+
+# service_type should be NodePort, ClusterIP or LoadBalancer
+service_type: NodePort
+replicas: 1
+
+
+pod:
+  image: "yanivomc/spring-music"
+  tag: "latest"
+  target_port: 8080
+  port: 80

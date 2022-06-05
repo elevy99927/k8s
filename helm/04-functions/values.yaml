@@ -1,0 +1,12 @@
+database_prod:
+  dbname: "db_mysql"
+  dbtable: "music"
+database_test:
+  dbname: "db_mysql"
+  dbtable: "music"
+pod:
+  image: "yanivomc/spring-music"
+  tag: "latest"
+food: 
+  drink: beer
+  eat: Peanut Butter and Jelly sandwich 
