@@ -7,3 +7,15 @@ spec:
   count: 1
   elasticsearchRef:
     name: quickstart
+  podTemplate:
+    spec:
+      containers:
+        - name: kibana
+  http:
+    service:
+      spec:
+        type: LoadBalancer
+        ports:
+          - port: 5601
+            targetPort: 5601
+            protocol: TCP
