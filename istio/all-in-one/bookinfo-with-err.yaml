@@ -142,7 +142,7 @@ spec:
           value: "true"
         securityContext:
           runAsUser: 1000
-	  hostAliases:
+      hostAliases:
       - hostnames:
         - www.googleapis.com
         ip: 8.8.8.8
