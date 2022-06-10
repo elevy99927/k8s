@@ -1,0 +1,37 @@
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: quickstart
+spec:
+  version: 7.13.2
+  nodeSets:
+    - name: default
+      count: 2
+      config:
+        node.master: true
+        node.data: true
+        node.store.allow_mmap: false
+        # Setting node.store.allow_mmap: false has performance implications and should be tuned for production workloads as described in the Virtual memory section in eck documentation.
+        # https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-virtual-memory.html
+      podTemplate:
+        spec:
+          containers:
+            - name: elasticsearch
+              env:
+                - name: ES_JAVA_OPTS
+                  value: -Xms500m -Xmx500m
+              resources:
+                requests:
+                  cpu: 0.5
+          volumes:
+            - name: elasticsearch-data
+              emptyDir: {}
+  http:
+    service:
+      spec:
+        type: LoadBalancer
+        ports:
+          - name: https        
+            port: 9200
+            targetPort: 9200
+            protocol: TCP
