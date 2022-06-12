@@ -122,3 +122,26 @@ metadata:
   name: envoy-conf
   namespace: default
 type: Opaque
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: envoy-proxy
+  name: envoy-proxy
+  namespace: default
+spec:
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http
+    nodePort: 32084
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: envoy-proxy
+  sessionAffinity: None
+  type: LoadBalancer
