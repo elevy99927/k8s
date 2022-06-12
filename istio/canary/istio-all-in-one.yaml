@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blue-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: blue
+  template:
+    metadata:
+      labels:
+        app: blue
+        canary: blue-green
+    spec:
+      containers:
+      - name: bear
+        image: supergiantkir/animals:bear
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: green
+  template:
+    metadata:
+      labels:
+        app: green
+        canary: blue-green
+    spec:
+      containers:
+      - name: moose
+        image: supergiantkir/animals:moose
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yellow-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: yellow
+  template:
+    metadata:
+      labels:
+        app: yellow
+        canary: blue-green
+    spec:
+      containers:
+      - name: hare
+        image: supergiantkir/animals:hare
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    deploy: blue-green
+  name: istio-canary
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    canary: blue-green
+  type: LoadBalancer
