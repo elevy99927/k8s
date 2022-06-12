@@ -131,10 +131,6 @@ metadata:
   name: envoy-proxy
   namespace: default
 spec:
-  externalTrafficPolicy: Cluster
-  ipFamilies:
-  - IPv4
-  ipFamilyPolicy: SingleStack
   ports:
   - name: http
     nodePort: 32084
