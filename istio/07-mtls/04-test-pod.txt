@@ -1,0 +1,1 @@
+kubectl run mypod -n test --image nginx curl http://details.default.svc.cluster.local
