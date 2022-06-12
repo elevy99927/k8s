@@ -1,1 +1,1 @@
-kubectl run mypod -n test --image nginx curl http://details.default.svc.cluster.local
+kubectl exec -it -n test mypod curl http://productpage.default:9080
