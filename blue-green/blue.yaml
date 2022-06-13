@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: blue-deployment
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: blue
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: bear
-        image: supergiantkir/animals:bear
+        image: supergiantkir/animals:hare
         ports:
         - containerPort: 80
 
