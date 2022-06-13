@@ -10,7 +10,7 @@ spec:
   selector:
     matchLabels:
       run: php-apache
-  replicas: 1
+  replicas: 3
   template:
     metadata:
       labels:
