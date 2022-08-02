@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     deploy: blue-green
-  name: blue-deployment
+  name: green-blue-deployment
 spec:
   ports:
   - port: 80
