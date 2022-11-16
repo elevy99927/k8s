@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app: spring-music
   name: spring-deployment
 spec:
   selector:
