@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: spring-music
+spec:
+  selector:
+    app: spring-music    # Run on any pod(s) with label - app: myapp
+  ports:          # Map incoming port to target port
+  - name: spring-music    # Setting multiple ports listterns
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: LoadBalancer
