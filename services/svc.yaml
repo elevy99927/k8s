@@ -2,6 +2,8 @@ kind: Service
 apiVersion: v1
 metadata:
   name: spring-music
+  labels:
+    app: spring-music
 spec:
   selector:
     app: spring-music    # Run on any pod(s) with label - app: myapp
