@@ -4,7 +4,7 @@
 Create deployment with 5 replicas
 
 ```
-kubectl create deployment animals --image=supergiantkir/animals:bear --port 8080 --replicas=5
+kubectl create deployment animals --image=supergiantkir/animals:bear --port 80 --replicas=5
 ```
 
 
