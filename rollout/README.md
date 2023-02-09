@@ -17,7 +17,7 @@ kubectl get pods,deployment,rs
 ## Expose your deployment
 
 ```
-kubectl expose deployment animals --type=NodePort --port 80
+kubectl expose deployment animals --type=LoadBalancer --port 80
 ```
 
 ## Check Your Service
