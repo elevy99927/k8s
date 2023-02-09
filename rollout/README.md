@@ -26,7 +26,7 @@ kubectl expose deployment animals --type=LoadBalancer --port 80
 kubectl get svc
 ```
 ## Chack your application
-open your browser http://<your svc IP>:80
+open your browser http://your_Svc_IP:80
 watch the bear
 
 ## Update image of the deployment
@@ -41,7 +41,7 @@ kubectl set image deployments/animals animals=supergiantkir/animals:moose --reco
 kubectl get pods,deployment,rs
 ```
 ## Chack your application
-open your browser http://<your svc IP>:80
+open your browser http://your_Svc_IP:80
 watch the moose
 
 
@@ -59,7 +59,7 @@ kubectl set image deployments/animals animals=nginx --record
 ```
 
 ## Chack your application
-open your browser http://<your svc IP>:80
+open your browser http://your_Svc_IP:80
 watch the nginx
 
 ## Check rollout history (2)
