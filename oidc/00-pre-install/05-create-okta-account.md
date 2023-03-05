@@ -10,3 +10,17 @@ Verify you have a valid Github or Google account
 Go to application -> Create New App
 <img src="img/create-application.png">
 
+
+# Create OIDC Web App
+<img src="img/create-oidc-web-app.png">
+
+
+## General Settings
+Set app name
+<img src="img/general-my-web-app.png">
+
+Sing in URLs
+<B>Sign-in redirect URIs</B> https://k8soidc.10.100.102.82.nip.io/auth/oidc/callback
+<B>Sign-out redirect URIs</B> https://k8soidc.10.100.102.82.nip.io/
+<img src="img/sign-in-url.png">
+
