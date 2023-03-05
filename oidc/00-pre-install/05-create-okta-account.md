@@ -16,10 +16,10 @@ Go to application -> Create New App
 
 
 ## General Settings
-Set app name
+### Set app name
 <img src="img/general-my-web-app.png">
 
-Sing in URLs
+### Sing in URLs
 
 <B>Sign-in redirect URIs</B> https://k8soidc.10.100.102.82.nip.io/auth/oidc/callback
 
@@ -27,3 +27,7 @@ Sing in URLs
 
 <img src="img/sign-in-url.png">
 
+### Assignments
+Select Allow everyone in your organization to access
+
+<img src="img/okta-assignments.png">
