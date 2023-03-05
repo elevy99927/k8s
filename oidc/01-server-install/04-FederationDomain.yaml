@@ -1,0 +1,7 @@
+apiVersion: config.supervisor.pinniped.dev/v1alpha1
+kind: FederationDomain
+metadata:
+  name: okta
+  namespace: pinniped-supervisor
+spec:
+  issuer: https://k8soidc.10.100.102.82.nip.io/auth/oidc
