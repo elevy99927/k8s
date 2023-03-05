@@ -382,12 +382,15 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+              hostPort: 80
             - name: https
               containerPort: 443
               protocol: TCP
+              hostPort: 443
             - name: webhook
               containerPort: 8443
               protocol: TCP
+              hostPort: 8443
           volumeMounts:
             - name: webhook-cert
               mountPath: /usr/local/certificates/
