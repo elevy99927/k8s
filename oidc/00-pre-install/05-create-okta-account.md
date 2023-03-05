@@ -28,6 +28,12 @@ Go to application -> Create New App
 <img src="img/sign-in-url.png">
 
 ### Assignments
-Select Allow everyone in your organization to access
+Select Allow everyone in your organization to access and <B>"Save"</B>
 
 <img src="img/okta-assignments.png">
+
+
+# Client Credentials and CLIENT SECRETS
+## *** Be sure you saved your Client ID and client Secret ***
+
+<img src="img/okta-client-id-and-secret.png">
