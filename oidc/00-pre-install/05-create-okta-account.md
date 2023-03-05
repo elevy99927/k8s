@@ -1,4 +1,7 @@
+# Github
+Verify you have a valid Github account
+
 # Create okta developer account
-<a href="https://login.okta.com/signin/register/">https://login.okta.com/signin/register/</a>
+<a href="https://developer.okta.com/login/">https://developer.okta.com/login/</a>
 
 <img src="img/okta-register.png">
