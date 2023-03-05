@@ -20,6 +20,7 @@ Set app name
 <img src="img/general-my-web-app.png">
 
 Sing in URLs
+
 <B>Sign-in redirect URIs</B> https://k8soidc.10.100.102.82.nip.io/auth/oidc/callback
 
 <B>Sign-out redirect URIs</B> https://k8soidc.10.100.102.82.nip.io/
