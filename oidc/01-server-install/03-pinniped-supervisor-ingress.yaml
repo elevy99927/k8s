@@ -1,3 +1,5 @@
+# Edit the ingress host
+# k8soidc.<YOUR EXTERNAL IP>.nip.io
 ---
 apiVersion: v1
 kind: Service

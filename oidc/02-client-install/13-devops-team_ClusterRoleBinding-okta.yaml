@@ -10,3 +10,6 @@ subjects:
   - apiGroup: rbac.authorization.k8s.io
     kind: Group
     name: k8sadmin
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: eyal@mydomain.com
