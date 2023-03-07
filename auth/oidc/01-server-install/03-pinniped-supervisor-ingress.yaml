@@ -1,0 +1,40 @@
+# Edit the ingress host
+# k8soidc.<YOUR EXTERNAL IP>.nip.io
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: pinniped-supervisor
+  name: pinniped-supervisor
+spec:
+  selector:
+    app: pinniped-supervisor
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pinniped-supervisor
+  namespace: pinniped-supervisor
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    #cert-manager.io/cluster-issuer: cluster-ca-issuer
+spec:
+  tls:
+  - hosts:
+    - k8soidc.10.100.102.82.nip.io
+    secretName: k8soidc-tls
+  rules:
+  - host: k8soidc.10.100.102.82.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pinniped-supervisor
+            port:
+              number: 80
