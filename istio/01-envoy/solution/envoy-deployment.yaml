@@ -1,0 +1,51 @@
+# kubectl apply -f envoy-deployment.yaml
+# kubectl expose deployment envoy-demo --port 80 --target-port 80 --type LoadBalancer
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: envoy-demo
+  name: envoy-demo
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: envoy-demo
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: envoy-demo
+    spec:
+      containers:
+      - image: envoyproxy/envoy:v1.11.2
+        imagePullPolicy: Always
+        name: envoy
+        command: ["/usr/local/bin/envoy"]
+        args: ["-c","/tmp/config.yaml"]
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        volumeMounts:
+        - name: config
+          mountPath: "/tmp"
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: config
+        secret:
+          secretName: envoy-conf
+          optional: false 
+
+---
+apiVersion: v1
+data:
+  config.yaml: YWRtaW46CiAgYWNjZXNzX2xvZ19wYXRoOiAvZGV2L251bGwgIy90bXAvYWRtaW5fYWNjZXNzLmxvZwogIGFjY2Vzc19sb2c6CiAgLSBuYW1lOiBlbnZveS5hY2Nlc3NfbG9nZ2Vycy5zdGRvdXQKICAgIHR5cGVkX2NvbmZpZzoKICAgICAgIkB0eXBlIjogdHlwZS5nb29nbGVhcGlzLmNvbS9lbnZveS5leHRlbnNpb25zLmFjY2Vzc19sb2dnZXJzLnN0cmVhbS52My5TdGRvdXRBY2Nlc3NMb2cKICBhZGRyZXNzOgogICAgc29ja2V0X2FkZHJlc3M6CiAgICAgIHByb3RvY29sOiBUQ1AKICAgICAgYWRkcmVzczogMC4wLjAuMAogICAgICBwb3J0X3ZhbHVlOiA5OTAxCnN0YXRpY19yZXNvdXJjZXM6CiAgbGlzdGVuZXJzOgogIC0gbmFtZTogbGlzdGVuZXJfMAogICAgYWRkcmVzczoKICAgICAgc29ja2V0X2FkZHJlc3M6CiAgICAgICAgcHJvdG9jb2w6IFRDUAogICAgICAgIGFkZHJlc3M6IDAuMC4wLjAKICAgICAgICBwb3J0X3ZhbHVlOiA4MAogICAgZmlsdGVyX2NoYWluczoKICAgIC0gZmlsdGVyczoKICAgICAgLSBuYW1lOiBlbnZveS5odHRwX2Nvbm5lY3Rpb25fbWFuYWdlcgogICAgICAgIHR5cGVkX2NvbmZpZzoKICAgICAgICAgICJAdHlwZSI6IHR5cGUuZ29vZ2xlYXBpcy5jb20vZW52b3kuY29uZmlnLmZpbHRlci5uZXR3b3JrLmh0dHBfY29ubmVjdGlvbl9tYW5hZ2VyLnYyLkh0dHBDb25uZWN0aW9uTWFuYWdlcgogICAgICAgICAgc3RhdF9wcmVmaXg6IGluZ3Jlc3NfaHR0cAogICAgICAgICAgcm91dGVfY29uZmlnOgogICAgICAgICAgICBuYW1lOiBnb29nbGVfYW5kX3luZXRfc3BsaXRfcm91dGluZwogICAgICAgICAgICB2aXJ0dWFsX2hvc3RzOgogICAgICAgICAgICAtIG5hbWU6IGJhY2tlbmQKICAgICAgICAgICAgICBkb21haW5zOiBbIioiXQogICAgICAgICAgICAgIHJvdXRlczoKICAgICAgICAgICAgICAtIG1hdGNoOgogICAgICAgICAgICAgICAgICBwcmVmaXg6ICIvZ29vZ2xlIgogICAgICAgICAgICAgICAgcm91dGU6CiAgICAgICAgICAgICAgICAgIGNsdXN0ZXI6IHNlcnZpY2VfZ29vZ2xlCiAgICAgICAgICAgICAgICAgIHByZWZpeF9yZXdyaXRlOiAiLyIKICAgICAgICAgICAgICAgICAgaG9zdF9yZXdyaXRlOiAid3d3Lmdvb2dsZS5jb20iCiAgICAgICAgICAgICAgLSBtYXRjaDoKICAgICAgICAgICAgICAgICAgcHJlZml4OiAiL3JlZGRpdCIKICAgICAgICAgICAgICAgIHJvdXRlOgogICAgICAgICAgICAgICAgICBjbHVzdGVyOiBzZXJ2aWNlX3luZXQKICAgICAgICAgICAgICAgICAgcHJlZml4X3Jld3JpdGU6ICIvIgogICAgICAgICAgICAgICAgICBob3N0X3Jld3JpdGU6ICJ3d3cucmVkZGl0LmNvbSIKICAgICAgICAgIGh0dHBfZmlsdGVyczoKICAgICAgICAgIC0gbmFtZTogZW52b3kucm91dGVyCiAgY2x1c3RlcnM6CiAgLSBuYW1lOiBzZXJ2aWNlX2dvb2dsZQogICAgY29ubmVjdF90aW1lb3V0OiAxMHMKICAgIHR5cGU6IFNUUklDVF9ETlMKICAgICMgQ29tbWVudCBvdXQgdGhlIGZvbGxvd2luZyBsaW5lIHRvIHRlc3Qgb24gdjYgbmV0d29ya3MKICAgIGRuc19sb29rdXBfZmFtaWx5OiBWNF9PTkxZCiAgICBsYl9wb2xpY3k6IFJPVU5EX1JPQklOCiAgICBsb2FkX2Fzc2lnbm1lbnQ6CiAgICAgIGNsdXN0ZXJfbmFtZTogc2VydmljZV9nb29nbGUKICAgICAgZW5kcG9pbnRzOgogICAgICAtIGxiX2VuZHBvaW50czoKICAgICAgICAtIGVuZHBvaW50OgogICAgICAgICAgICBhZGRyZXNzOgogICAgICAgICAgICAgIHNvY2tldF9hZGRyZXNzOgogICAgICAgICAgICAgICAgYWRkcmVzczogd3d3Lmdvb2dsZS5jb20KICAgICAgICAgICAgICAgIHBvcnRfdmFsdWU6IDQ0MwogICAgdGxzX2NvbnRleHQ6CiAgICAgIHNuaTogd3d3Lmdvb2dsZS5jb20KICAtIG5hbWU6IHNlcnZpY2VfeW5ldAogICAgY29ubmVjdF90aW1lb3V0OiAxMHMKICAgIHR5cGU6IExPR0lDQUxfRE5TCiAgICAjIENvbW1lbnQgb3V0IHRoZSBmb2xsb3dpbmcgbGluZSB0byB0ZXN0IG9uIHY2IG5ldHdvcmtzCiAgICBkbnNfbG9va3VwX2ZhbWlseTogVjRfT05MWQogICAgbGJfcG9saWN5OiBST1VORF9ST0JJTgogICAgbG9hZF9hc3NpZ25tZW50OgogICAgICBjbHVzdGVyX25hbWU6IHNlcnZpY2VfeW5ldAogICAgICBlbmRwb2ludHM6CiAgICAgIC0gbGJfZW5kcG9pbnRzOgogICAgICAgIC0gZW5kcG9pbnQ6CiAgICAgICAgICAgIGFkZHJlc3M6CiAgICAgICAgICAgICAgc29ja2V0X2FkZHJlc3M6CiAgICAgICAgICAgICAgICBhZGRyZXNzOiB3d3cucmVkZGl0LmNvbQogICAgICAgICAgICAgICAgcG9ydF92YWx1ZTogNDQzCiAgICB0bHNfY29udGV4dDoKICAgICAgc25pOiB3d3cucmVkZGl0LmNvbQo= 
+kind: Secret
+metadata:
+  name: envoy-conf
+  namespace: default
+type: Opaque
