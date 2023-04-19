@@ -1,0 +1,75 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: filebeat-config
+  namespace: devops-system
+  labels:
+    k8s-app: filebeat
+data:
+  filebeat.yml: |-
+    filebeat.inputs:
+    - type: container
+      multiline:
+        pattern: '^\s'
+        match: after
+      paths:
+        - /var/log/containers/*.log
+      processors:
+        - add_tags:
+            tags: [kubernetes, lan, PRD, DR, Rancher]
+            target: "tags"
+        - add_labels:
+            labels:
+              env: PRD
+        - add_labels:
+            labels:
+              cluster: myclustername # put your cluster name here
+        - add_fields:
+            target: network
+            fields:
+              name: LAN
+        - add_kubernetes_metadata:
+            host: ${NODE_NAME}
+            matchers:
+            - logs_path:
+                logs_path: "/var/log/containers/"
+    # To enable hints based autodiscover, remove `filebeat.inputs` configuration and uncomment this:
+    #filebeat.autodiscover:
+    #  providers:
+    #    - type: kubernetes
+    #      node: ${NODE_NAME}
+    #      hints.enabled: true
+    #      hints.default_config:
+    #        type: container
+    #        paths:
+    #          - /var/log/containers/*${data.kubernetes.container.id}.log
+    processors:
+      - add_cloud_metadata:
+      - add_host_metadata:
+    cloud.id: ""
+    cloud.auth: ""
+    output.kafka:
+      enabled: true
+      # initial brokers for reading cluster metadata
+      # PROD
+      hosts: ["1.1.1.1:9092"]
+      # QA
+      #hosts: ["2.2.2.2:9092"]
+      # message topic selection + partitioning
+      # PROD
+      topic: PROD_File_K8S_DMZ
+      # QA
+      #topic: QA_File_K8S_DMZ
+      worker: 2
+      max_message_bytes: 5000000
+      client_id: k8s_rancher_prod
+
+#    output.logstash:
+#      hosts: ['3.3.3.3:5044']
+#          
+#
+#    output.elasticsearch:
+#      hosts: ['3.3.3.3:5044']
+#      username: ""
+#      password: ""
