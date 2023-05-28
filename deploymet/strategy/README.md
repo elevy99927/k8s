@@ -26,6 +26,7 @@ update your rollout status (CHANGE-CAUSE) with record:
 `kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v3 --record`
   
  Rollback to deployment ver2:
+  
   `kubectl rollout  undo deployment kubernetes-bootcamp `
 
   25 minutes
