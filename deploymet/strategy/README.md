@@ -9,7 +9,7 @@ run:
 
 Update your deployment image:
   
-`kubectl set image deployments/kubernetes-bootcamp nginx=jocatalin/kubernetes-bootcamp:v2`
+`kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2`
   
   
 view your deployment rollout:
