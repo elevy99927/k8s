@@ -23,7 +23,7 @@ update your rollout status (CHANGE-CAUSE):
 
 update your rollout status (CHANGE-CAUSE) with record:
   
-`kubectl set image deployments/kubernetes-bootcamp nginx=jocatalin/kubernetes-bootcamp:v3 --record=true`
+`kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v3 --record`
   
  Rollback to deployment ver2:
   `kubectl rollout  undo deployment kubernetes-bootcamp `
