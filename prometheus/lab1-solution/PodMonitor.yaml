@@ -1,0 +1,10 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: prometheus-sample-app-monitor
+spec:
+  selector:
+    matchLabels:
+      app: prometheus-sample-app
+  podMetricsEndpoints:
+    - port: metrics
