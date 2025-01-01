@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prometheus-sample-app-deployment
+  name: metrics-app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: prometheus-sample-app
+      app: metrics-app
   template:
     metadata:
       labels:
-        app: prometheus-sample-app
+        app: metrics-app
     spec:
       containers:
-        - name: prometheus-sample-app
+        - name: metrics-app
           image: open-o11y/prometheus-sample-app
           ports:
             - containerPort: 8080

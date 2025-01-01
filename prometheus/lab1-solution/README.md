@@ -2,7 +2,9 @@
 
 For this lab, we will use the `open-o11y/prometheus-sample-app` Docker image. This image generates all four Prometheus metric types (counter, gauge, histogram, summary) and exposes them at the `/metrics` endpoint.
 
+
 ### Deployment YAML:
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -25,7 +27,26 @@ spec:
             - containerPort: 8080
 ```
 
+### Service YAML:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-sample-app-service
+  labels:
+    app: prometheus-sample-app
+spec:
+  selector:
+    app: prometheus-sample-app
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+```
+
 ### PodMonitor YAML:
+
 ```yaml
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
@@ -36,8 +57,7 @@ spec:
     matchLabels:
       app: prometheus-sample-app
   podMetricsEndpoints:
-    - port: metrics
+    - port: 8080
+      path: /metrics
 ```
-
-This setup will allow Prometheus to scrape metrics from the sample application effectively.
 
