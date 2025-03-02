@@ -31,7 +31,7 @@ A **Deployment** is a higher-level Kubernetes object that manages Pods using Rep
 
 Deployments create and manage **ReplicaSets**, which ensure a specified number of Pod replicas are running.
 
-![Kubernetes Deployment Illustration](./images/kubernetes-deployment.svg)
+<img src="./images/kubernetes-deployment.svg">
 
 **Hands-on: Create a Deployment**
 ```sh
