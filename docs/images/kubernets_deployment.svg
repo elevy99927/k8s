@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500">
+  <!-- Background -->
+  <rect width="900" height="500" fill="#f8f9fa" rx="10" ry="10"/>
+  
+  <!-- Deployment -->
+  <rect x="100" y="50" width="700" height="400" fill="#326ce5" fill-opacity="0.1" rx="15" ry="15" stroke="#326ce5" stroke-width="2"/>
+  <text x="450" y="85" font-family="Arial" font-size="22" text-anchor="middle" fill="#326ce5" font-weight="bold">Deployment: my-application</text>
+  
+  <!-- ReplicaSet 1 -->
+  <rect x="150" y="120" width="250" height="300" fill="#326ce5" fill-opacity="0.2" rx="10" ry="10" stroke="#326ce5" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="275" y="150" font-family="Arial" font-size="18" text-anchor="middle" fill="#326ce5">ReplicaSet v1</text>
+  <text x="275" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#626262">my-application-rs-74d4f98b6</text>
+  
+  <!-- ReplicaSet 2 -->
+  <rect x="500" y="120" width="250" height="300" fill="#326ce5" fill-opacity="0.2" rx="10" ry="10" stroke="#326ce5" stroke-width="2"/>
+  <text x="625" y="150" font-family="Arial" font-size="18" text-anchor="middle" fill="#326ce5">ReplicaSet v2</text>
+  <text x="625" y="175" font-family="Arial" font-size="14" text-anchor="middle" fill="#626262">my-application-rs-85c7d6f9c</text>
+  
+  <!-- Pods for ReplicaSet 1 -->
+  <circle cx="200" cy="250" r="15" fill="#326ce5"/>
+  <path d="M200,250 L200,230 M190,240 L210,240 M190,260 L210,260" stroke="white" stroke-width="2"/>
+  <rect x="170" y="280" width="60" height="90" rx="5" ry="5" fill="#d4e6ff" stroke="#326ce5" stroke-width="2"/>
+  <text x="200" y="320" font-family="Arial" font-size="12" text-anchor="middle" fill="#326ce5">Pod 1</text>
+  <text x="200" y="340" font-family="Arial" font-size="10" text-anchor="middle" fill="#626262">v1</text>
+  
+  <circle cx="300" cy="250" r="15" fill="#326ce5"/>
+  <path d="M300,250 L300,230 M290,240 L310,240 M290,260 L310,260" stroke="white" stroke-width="2"/>
+  <rect x="270" y="280" width="60" height="90" rx="5" ry="5" fill="#d4e6ff" stroke="#326ce5" stroke-width="2"/>
+  <text x="300" y="320" font-family="Arial" font-size="12" text-anchor="middle" fill="#326ce5">Pod 2</text>
+  <text x="300" y="340" font-family="Arial" font-size="10" text-anchor="middle" fill="#626262">v1</text>
+  
+  <!-- Pods for ReplicaSet 2 -->
+  <circle cx="550" cy="250" r="15" fill="#326ce5"/>
+  <path d="M550,250 L550,230 M540,240 L560,240 M540,260 L560,260" stroke="white" stroke-width="2"/>
+  <rect x="520" y="280" width="60" height="90" rx="5" ry="5" fill="#d4e6ff" stroke="#326ce5" stroke-width="2"/>
+  <text x="550" y="320" font-family="Arial" font-size="12" text-anchor="middle" fill="#326ce5">Pod 3</text>
+  <text x="550" y="340" font-family="Arial" font-size="10" text-anchor="middle" fill="#626262">v2</text>
+  
+  <circle cx="650" cy="250" r="15" fill="#326ce5"/>
+  <path d="M650,250 L650,230 M640,240 L660,240 M640,260 L660,260" stroke="white" stroke-width="2"/>
+  <rect x="620" y="280" width="60" height="90" rx="5" ry="5" fill="#d4e6ff" stroke="#326ce5" stroke-width="2"/>
+  <text x="650" y="320" font-family="Arial" font-size="12" text-anchor="middle" fill="#326ce5">Pod 4</text>
+  <text x="650" y="340" font-family="Arial" font-size="10" text-anchor="middle" fill="#626262">v2</text>
+  
+  <!-- Arrows from Deployment to ReplicaSets -->
+  <path d="M450,100 L275,120" stroke="#326ce5" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M450,100 L625,120" stroke="#326ce5" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Arrows from ReplicaSets to Pods -->
+  <path d="M275,180 L200,220" stroke="#326ce5" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M275,180 L300,220" stroke="#326ce5" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M625,180 L550,220" stroke="#326ce5" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  <path d="M625,180 L650,220" stroke="#326ce5" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  
+  <!-- Label for old version -->
+  <text x="275" y="435" font-family="Arial" font-size="16" text-anchor="middle" fill="#626262" font-style="italic">Previous Version (scaled down)</text>
+  
+  <!-- Label for new version -->
+  <text x="625" y="435" font-family="Arial" font-size="16" text-anchor="middle" fill="#326ce5" font-weight="bold">Current Version</text>
+  
+  <!-- Define the arrowhead marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#326ce5"/>
+    </marker>
+  </defs>
+</svg>
