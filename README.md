@@ -10,7 +10,7 @@ This course is designed to give participants a deep understanding of Kubernetes,
 ### Foundation: Kubernetes Core Concepts
 **Goal**: Learn Kubernetes fundamentals, its architecture, and how to deploy workloads
 
-1. **Introduction to Kubernetes**
+1. **[Introduction to Kubernetes](https://github.com/elevy99927/k8s/blob/main/docs/Chapter-01.md)**
    - What is Kubernetes?
    - Pros and cons
    - Imperative vs. declarative
