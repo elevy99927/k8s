@@ -1,7 +1,7 @@
 
 ## Deployment Architecture
 
-![Kubernetes Deployment Illustration](./images/kubernetes-deployment.svg)
+<img src="./images/kubernets_deployment.svg">
 
 This illustration shows a Kubernetes Deployment managing two ReplicaSets:
 
