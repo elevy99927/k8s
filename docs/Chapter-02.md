@@ -54,9 +54,11 @@ This command creates a Service that exposes `my-deployment` on port 80 with an e
 
 ### Service Discovery
 
-Kubernetes provides built-in **service discovery mechanisms** to enable communication between services.
-- **Environment Variables**: Kubernetes automatically injects environment variables into Pods containing Service details.
-- **DNS-Based Discovery**: Each Service gets a DNS name (`my-service.default.svc.cluster.local`) that other Pods can use for communication.
+- Kubernetes provides built-in **service discovery mechanisms** to enable communication between services.
+- In modern **cloud-native** infrastructure such as Kubernetes, applications are designed using microservices.
+- The different components need to communicate within a microservices architecture, but individual IP addresses change dynamically.
+- So, Each Service gets a DNS name (`my-service.default.svc.cluster.local`) that other Pods can use for communication.
+
 
 ### Endpoints
 

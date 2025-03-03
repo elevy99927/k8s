@@ -16,13 +16,13 @@ This course is designed to give participants a deep understanding of Kubernetes,
    - Imperative vs. declarative
    - Kubernetes architecture overview (etcd, scheduler, API, etc.)
 
-2. **Key Kubernetes Components**
+2. **[Key Kubernetes Components](https://github.com/elevy99927/k8s/blob/main/docs/Chapter-02.md)**
    - Pods, Deployments, and ReplicaSets
    - Hands-on: Deploy a simple pod and a deployment
    - Services and Endpoints
    - Hands-on: Expose your deployment via a Service
 
-3. **YAML Basics for Kubernetes**
+3. **[YAML Basics for Kubernetes](https://github.com/elevy99927/k8s/blob/main/docs/Chapter-03.md)**
    - YAML syntax and structure
    - Writing manifests for Pods, Deployments, and Services
    - Hands-on: Create a simple canary deployment
