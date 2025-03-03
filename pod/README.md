@@ -65,3 +65,27 @@ kubectl get pod --show-labels
 </tbody>
 </table>
 
+## Create a pod using YAML
+
+Create a file `my-pod.yaml`
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: my-container
+      image: nginx
+      ports:
+        - containerPort: 80
+```
+
+Run the command: 
+```bash
+kubectl apply -f my-pod.yaml
+```
+
