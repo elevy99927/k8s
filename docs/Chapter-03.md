@@ -91,7 +91,7 @@ kubectl logs my-pod
 If you no longer need the Pod, delete it using:
 
 ```sh
-kubectl deleow tte pod my-pod
+kubectl delete pod my-pod
 ```
 
 ---
