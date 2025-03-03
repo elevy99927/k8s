@@ -246,16 +246,15 @@ kubectl apply -f my-service.yaml
 
 A **Green/Blue Deployment** releases a new version of an application to a subset of users before rolling it out fully.
 
-### ** Deployment YAML:**
-1. **create deployment blue.**
+### 1. **create deployment blue.**
 - **image**: supergiantkir/animals:bear
 - **replicas**: 2
 
-2. **create deployment green**
+### 2. **create deployment green**
 - **image**: supergiantkir/animals:moose
 - **replicas**: 1
 
-3. **expose the deployments using a service**
+### 3. **expose the deployments using a service**
 - **type**: LoadBalancer
 - **port**: 80:80
 - **Use Labels**
