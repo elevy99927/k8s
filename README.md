@@ -27,7 +27,7 @@ This course is designed to give participants a deep understanding of Kubernetes,
    - Writing manifests for Pods, Deployments, and Services
    - Hands-on: Create a simple canary deployment
 
-4. **Namespaces and Resource Management**
+4. **[Namespaces and Resource Management](https://github.com/elevy99927/k8s/blob/main/docs/Chapter-04.md)**
    - Why use namespaces?
    - Creating and managing namespaces
    - Assigning resource quotas and limits
