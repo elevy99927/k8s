@@ -275,4 +275,4 @@ For questions or feedback, feel free to reach out:
 
 ---
 ### **Next Steps**
-<A href="./Chapter-004.md">Namespaces and Resource Management </A>
+<A href="./Chapter-04.md">Namespaces and Resource Management </A>
