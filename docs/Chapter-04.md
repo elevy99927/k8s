@@ -134,7 +134,7 @@ kubectl apply -f limited-pod.yaml
 
 ---
 
-[Kubernetes Resource Quotas - Advanced lab](https://github.com/elevy99927/k8s/tree/main/quota)
+**[Kubernetes Resource Quotas - Advanced lab](https://github.com/elevy99927/k8s/tree/main/quota)**
 
 ---
 ## **Contact**
