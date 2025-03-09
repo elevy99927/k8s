@@ -87,10 +87,6 @@ Apply the quota:
 kubectl apply -f resource-quota.yaml
 ```
 
-### **Advanced Resource Quota Lab**
-For more details on advanced quota management, refer to the **Advanced Resource Quota Lab**:
-[Advanced Quota Lab](https://kubernetes.io/docs/concepts/policy/resource-quotas/)
-
 ### **Example: Setting Limits on a Pod**
 
 ```yaml
