@@ -47,8 +47,7 @@ Apply the PVC:
 ```sh
 kubectl apply -f simple-pvc.yaml
 ```
-
-For more details, refer to the [Persistent Volume Claims lab](https://github.com/elevy99927/k8s/tree/main/volumes/pvc).
+Link to [simple-pvc.yaml](https://github.com/elevy99927/k8s/blob/main/volumes/pvc/simple-pvc.yaml).
 
 ---
 
