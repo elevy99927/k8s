@@ -53,5 +53,5 @@ Once the pod restarts, the data should still be present.
 ---
 
 ## **Lab Solution**
-[MySQL StatefulSet with Persistent Storage]()
+[MySQL StatefulSet with Persistent Storage](https://github.com/elevy99927/k8s/blob/main/volumes/pvc/solution/mysql-with-pvc.yaml)
 
