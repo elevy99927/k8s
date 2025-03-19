@@ -1,14 +1,28 @@
 # Kubernetes Networking
 
+## Introduction
+
+This document provides an overview of Kubernetes networking, including its model, communication between pods and services, and network security using policies. The exercises help in understanding how networking works in Kubernetes and how to implement isolation and security measures.
+
 ## 1. Networking Model and CNI Plugins
 
 ### Overview:
-Kubernetes networking is based on a flat, cluster-wide network model where all pods can communicate with each other without NAT. Container Network Interface (CNI) plugins provide different networking implementations to handle traffic between pods, services, and external systems.
+Kubernetes networking is based on a flat, cluster-wide network model where all pods can communicate with each other without NAT. This simplifies communication but requires proper network implementation to scale efficiently. Kubernetes does not include a built-in networking solution; instead, it relies on Container Network Interface (CNI) plugins to provide networking functionalities.
+
+### Key Features of Kubernetes Networking:
+- **Pod-to-Pod Communication**: Every pod receives a unique IP address, ensuring direct connectivity.
+- **No NAT Between Pods**: Communication between pods occurs without network address translation.
+- **Service Abstraction**: Services provide stable network endpoints, abstracting pod IP changes.
+- **Extensibility with CNI Plugins**: Various plugins allow customization and network policy enforcement.
 
 ### Common CNI Plugins:
-- **Calico** – Network security and policy enforcement.
+- **Calico** – Provides networking and security policy enforcement.
 - **Flannel** – Simple overlay network for Kubernetes.
-- **Cilium** – Provides eBPF-based security and observability.
+- **Cilium** – Uses eBPF for high-performance networking and security.
+- **Weave** – Focuses on simplicity and multi-cloud support.
+
+### CNI Plugins comparation:
+<img src="./images/kubernetes_cni_comparison.png">
 
 ### Example: Deploy a Pod and Check Networking
 ```yaml
@@ -46,8 +60,16 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documen
 ## 2. Pod-to-Pod and Pod-to-Service Communication
 
 ### Overview:
-- **Pod-to-Pod**: Direct communication between pods using cluster IPs.
-- **Pod-to-Service**: Uses Kubernetes services to provide stable communication endpoints.
+Networking in Kubernetes is designed to support microservices architectures by enabling seamless communication between application components.
+
+- **Pod-to-Pod Communication**: All pods within a cluster can communicate directly using their assigned IP addresses. This is facilitated by the underlying CNI plugin.
+- **Pod-to-Service Communication**: Kubernetes services abstract a group of pods and expose a stable IP or DNS name, ensuring reliable communication even when pods are rescheduled or replaced.
+
+### Common Kubernetes Service Types:
+- **ClusterIP** (default) – Exposes the service internally within the cluster.
+- **NodePort** – Exposes the service on each node’s static port.
+- **LoadBalancer** – Creates an external load balancer (cloud environments).
+- **Headless Service** – Allows direct pod communication without load balancing.
 
 ### Example: Deploy a Web Server and a Client Pod
 ```yaml
@@ -105,7 +127,12 @@ spec:
 ## 3. Network Policies for Isolation
 
 ### Overview:
-By default, all pods in a Kubernetes cluster can communicate with each other. Network policies restrict communication based on labels and selectors.
+By default, all pods in a Kubernetes cluster can communicate with each other. Network policies restrict communication based on labels and selectors, improving security by isolating workloads.
+
+### Key Network Policy Features:
+- Define ingress (incoming) and egress (outgoing) traffic rules.
+- Select specific pods to which the policy applies using labels.
+- Allow or deny traffic from other pods, namespaces, or external sources.
 
 ### Example: Deny All Traffic Policy
 ```yaml
@@ -145,7 +172,6 @@ spec:
       port: 80
 ```
 2. Test by deploying a `client-pod` and another pod, verifying that only `client-pod` can access the web pod.
-
 
 ---
 ## **Contact**
