@@ -1,15 +1,19 @@
 # Advanced Scheduling in Kubernetes
 
 ## 1. Node Selector
+
 ### **What is Node Selector?**
+
 Node Selector is the simplest way to constrain a Pod to run on a specific set of nodes. It allows scheduling decisions based on **node labels**.
 
 ### **How It Works**
+
 - Nodes are labeled with key-value pairs.
 - Pods specify the label key-value pair in their `spec.nodeSelector` field.
 - The scheduler places the Pod on nodes that match the specified label.
 
 ### **Example: Scheduling a Pod on a Specific Node**
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -24,6 +28,7 @@ spec:
 ```
 
 ### **Applying the Label to a Node**
+
 ```sh
 kubectl label nodes <node-name> environment=production
 ```
@@ -32,41 +37,26 @@ This ensures the Pod only runs on nodes labeled `environment=production`.
 
 ---
 
-## 2. Taint and Toleration
 ### **What is Taint and Toleration?**
+
 - **Taints** prevent Pods from being scheduled on a node unless the Pod has a matching **Toleration**.
 - **Tolerations** allow specific Pods to bypass taints and be scheduled on tainted nodes.
 
 ### **How It Works**
+
 - Nodes are tainted using `kubectl taint nodes`.
 - Pods must have a **matching toleration** to be scheduled on tainted nodes.
 
-### Taint and Toleration usecases 
-
-1. **Dedicated Node Pools**
-   * Scenario: Reserve nodes exclusively for specific teams or applications
-   * Example: Taint production database nodes with `team=database:NoSchedule` so only database pods with matching tolerations can use these specialized resources
-
-2. **Hardware Segregation**
-   * Scenario: Reserve nodes with specialized hardware (GPUs, high-memory)
-   * Example: Taint GPU nodes with `hardware=gpu:NoSchedule` ensuring only ML/AI workloads with proper tolerations can access these expensive resources
-
-3. **Controlled Node Upgrades**
-   * Scenario: Gracefully drain nodes before maintenance
-   * Example: Apply `node.kubernetes.io/unschedulable:NoSchedule` taint during upgrades, while critical pods have tolerations to ensure they can be rescheduled if necessary
-
-4. **Node Problems and Self-Healing**
-   * Scenario: Automatically taint problematic nodes
-   * Example: Kubernetes applies `node.kubernetes.io/disk-pressure:NoSchedule` when storage issues are detected, preventing new pods without specific tolerations from being scheduled on troubled nodes
-
-
 ### **Example: Tainting a Node**
+
 ```sh
 kubectl taint nodes node1 key=value:NoSchedule
 ```
+
 This prevents any Pod from scheduling unless it has a **matching toleration**.
 
 ### **Example: Pod with a Matching Toleration**
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -82,18 +72,23 @@ spec:
     - name: nginx
       image: nginx
 ```
+
 This Pod will be scheduled on the **tainted node**.
 
 ---
 
 ## 3. Node and Pod Affinity Rules
+
 ### **What is Affinity?**
+
 Affinity allows more complex scheduling rules than **Node Selector**.
+
 - **Node Affinity**: Controls which nodes a Pod can be scheduled on.
 - **Pod Affinity**: Ensures Pods run **together**.
 - **Pod Anti-Affinity**: Ensures Pods are **separated** from each other.
 
 ### **Example: Node Affinity**
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -113,9 +108,11 @@ spec:
   - name: mysql-container
     image: mysql
 ```
+
 This Pod will only be scheduled on **Linux nodes**.
 
 ### **Example: Pod Affinity**
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -136,9 +133,11 @@ spec:
   - name: nginx
     image: nginx
 ```
+
 This Pod will only schedule on nodes **where a Redis pod is running**.
 
 ### **Example: Pod Anti-Affinity**
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -159,18 +158,23 @@ spec:
   - name: redis-container
     image: redis
 ```
+
 This Pod **will not be scheduled on the same node** as a **MySQL** pod.
 
 ---
 
 ## 4. Required vs. Preferred Scheduling
+
 **Required Scheduling** (Hard Constraint): If the condition is not met, the Pod **will not be scheduled**.
+
 - Uses `requiredDuringSchedulingIgnoredDuringExecution`.
 
 **Preferred Scheduling** (Soft Constraint): The scheduler tries to place the Pod based on the condition, but **it is not mandatory**.
+
 - Uses `preferredDuringSchedulingIgnoredDuringExecution`.
 
 ### **Example: Required vs. Preferred Scheduling**
+
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -198,6 +202,7 @@ spec:
   - name: nginx
     image: nginx
 ```
+
 - **Required Rule:** Ensures the Pod runs only on nodes labeled `node-role=high-performance`.
 - **Preferred Rule:** Prefers scheduling in the **us-west** region but allows other regions if necessary.
 

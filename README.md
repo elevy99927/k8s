@@ -36,12 +36,12 @@ This course is designed to give participants a deep understanding of Kubernetes,
 ### Workload Orchestration & Scheduling
 **Goal**: Learn how Kubernetes manages and schedules workloads for high availability and scalability
 
-5. **Deployments and Rolling Updates**
+5. **[Deployments and Rolling Updates](https://github.com/elevy99927/k8s/blob/main/docs/Chapter-05.md)**
    - Creating and managing deployments
    - Rolling updates and rollbacks
    - Hands-on: Perform an update and rollback with kubectl rollout undo
 
-6. **StatefulSets and Persistent Storage**
+6. **[StatefulSets and Persistent Storage](https://github.com/elevy99927/k8s/blob/main/docs/Chapter-06.md)**
    - Difference between Deployments and StatefulSets
    - Persistent Volumes (PVs) and Persistent Volume Claims (PVCs)
    - Storage Classes

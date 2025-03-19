@@ -131,4 +131,4 @@ For questions or feedback, feel free to reach out:
 
 ---
 ### **Next Steps**
-<A href="./Chapter-02.md">Key Kubernetes Components </A>
+<A href="./Chapter-07.md">Kuberetes Advance Scheduling</A>
