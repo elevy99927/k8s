@@ -219,4 +219,4 @@ For questions or feedback, feel free to reach out:
 
 ---
 ### **Next Steps**
-<A href="./Chapter-08.md">Kubernetes Networking</A>
+<A href="./Chapter-08.md">Services and Endpoints</A>
