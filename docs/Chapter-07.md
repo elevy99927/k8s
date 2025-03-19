@@ -207,6 +207,10 @@ spec:
 - **Preferred Rule:** Prefers scheduling in the **us-west** region but allows other regions if necessary.
 
 
+
+## 5. Exercise: Pod Affinity
+Follow the steps in this chapter: [Pod Affinity and Anti-Affinity Exercises](https://github.com/elevy99927/k8s/blob/main/Affinity/affinity-labs.md)
+
 ---
 ## **Contact**
 For questions or feedback, feel free to reach out:
