@@ -47,7 +47,7 @@ This course is designed to give participants a deep understanding of Kubernetes,
    - Storage Classes
    - Hands-on: Deploy MySQL and Redis with persistent storage
 
-7. **Advance Scheduling**
+7. **[Advance Scheduling](https://github.com/elevy99927/k8s/blob/main/docs/Chapter-07.md)**
    - Node Selector
    - Node and Pod Affinity rules
    - Required vs. preferred scheduling
@@ -57,18 +57,18 @@ This course is designed to give participants a deep understanding of Kubernetes,
 ### Kubernetes Networking & Traffic Management
 **Goal**: Learn how Kubernetes handles network communication and traffic routing
 
-8. **Kubernetes Networking**
+8. **[Kubernetes Networking](https://github.com/elevy99927/k8s/blob/main/docs/Chapter-08.md)**
    - Networking model and CNI plugins
    - Pod-to-Pod and Pod-to-Service communication
    - Network Policies for isolation
    - Hands-on: Secure a web app with MySQL using Network Policies
 
-9. **Services and Endpoints**
+9. **[Services and Endpoints](https://github.com/elevy99927/k8s/blob/main/docs/Chapter-09.md)**
    - ClusterIP, NodePort, LoadBalancer
    - Linking services to pods with endpoints
    - Hands-on: Deploy web-with-redis.yaml and test connectivity
 
-10. **Ingress Controllers and Resources**
+10. **[Ingress Controllers and Resources](https://github.com/elevy99927/k8s/blob/main/docs/Chapter-10.md)**
     - When to use Ingress
     - Setting up an Ingress controller
     - Routing traffic using Ingress rules
