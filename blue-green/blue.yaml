@@ -14,8 +14,8 @@ spec:
         canary: blue-green
     spec:
       containers:
-      - name: bear
-        image: supergiantkir/animals:bear
+      - name: blue
+        image: elevy99927/color:blue
         ports:
         - containerPort: 80
 
