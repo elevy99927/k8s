@@ -51,7 +51,7 @@ Network Policies in Kubernetes allow you to control traffic flow at the IP addre
 * **Egress rules**: Control outgoing traffic from a Pod.
 * **Selectors**: Determine which Pods and traffic sources the rules apply to.
 
-#### Example: Deny All Traffic
+#### Simple Example: Deny All Traffic
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -66,7 +66,47 @@ spec:
 ```
 
 This policy blocks all traffic to and from all Pods in the namespace.
+---
 
+#### Advanced Example: Deny All Traffic
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      role: db
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 172.17.0.0/16
+        except:
+        - 172.17.1.0/24
+    - namespaceSelector:
+        matchLabels:
+          project: myproject
+    - podSelector:
+        matchLabels:
+          role: frontend
+    ports:
+    - protocol: TCP
+      port: 6379
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 10.0.0.0/24
+    ports:
+    - protocol: TCP
+      port: 5978
+```
+[networkpolicy.yaml](https://github.com/elevy99927/k8s/tree/main/networking/networkpolicy.yaml)
 ---
 
 ## 3. LAB: Apply Network Policy to Web and MySQL
