@@ -71,7 +71,7 @@ This policy blocks all traffic to and from all Pods in the namespace.
 
 ## 3. LAB: Apply Network Policy to Web and MySQL
 
-We will create two deployments (`web` and `mysql`) and validate traffic flow using `curl`.
+We will create three deployments (`web`, `mysql`, and `attacker`) and validate traffic flow using curl or nc.
 
 ### Step 1: Create Web and MySQL Deployments + Services
 
@@ -143,15 +143,36 @@ spec:
   ports:
   - port: 3306
     targetPort: 3306
+---
+# attacker-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: attacker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: attacker
+  template:
+    metadata:
+      labels:
+        app: attacker
+    spec:
+      containers:
+      - name: attacker
+        image: busybox
+
 ```
 
 ### Step 2: Verify Access from Web to MySQL
 
 ```sh
 kubectl exec -it <web-pod> -- nc -vz mysql 3306
+kubectl exec -it <attacker-pod> -- nc -vz mysql 3306
 ```
 
-Should return `succeeded` if no policy is applied yet.
+Both pods will return `succeeded` if no policy is applied yet.
 
 ### Step 3: Apply Deny-All Policy
 
@@ -191,7 +212,11 @@ spec:
       port: 3306
 ```
 
-Verify again – it should succeed.
+Verify again
+```bash
+kubectl exec -it <web-pod> -- nc -vz mysql 3306  # should succeed
+kubectl exec -it <attacker-pod> -- nc -vz mysql 3306  # should fail
+```
 
 ---
 
