@@ -169,7 +169,7 @@ kubectl apply -f ingress-canary.yaml
 Run the following command multiple times to simulate requests:
 
 ```bash
-for i in {1..100}; do curl -s http://<INGRESS_IP>/ | grep -o 'img'; done | sort | uniq -c
+for i in {1..100}; do curl -s http://<INGRESS_IP>/ ; done | sort | uniq -c
 ```
 
 Expected output:
