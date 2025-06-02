@@ -36,9 +36,8 @@ spec:
     spec:
       containers:
       - name: green
-        image: hashicorp/http-echo
-        args:
-        - "-text=GREEN-STABLE"
+        image: nginx
+
 ---
 apiVersion: v1
 kind: Service
@@ -49,7 +48,7 @@ spec:
     app: green
   ports:
   - port: 80
-    targetPort: 5678
+    targetPort: 80
 ```
 
 ```yaml
@@ -72,9 +71,8 @@ spec:
     spec:
       containers:
       - name: green
-        image: hashicorp/http-echo
-        args:
-        - "-text=GREEN-CANARY"
+        image: elevy99927/color:green
+
 ```
 
 ```yaml

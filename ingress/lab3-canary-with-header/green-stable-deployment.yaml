@@ -1,0 +1,32 @@
+# green-stable-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-stable
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: green
+      version: stable
+  template:
+    metadata:
+      labels:
+        app: green
+        version: stable
+    spec:
+      containers:
+      - name: green
+        image: nginx
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: green
+spec:
+  selector:
+    app: green
+  ports:
+  - port: 80
+    targetPort: 80

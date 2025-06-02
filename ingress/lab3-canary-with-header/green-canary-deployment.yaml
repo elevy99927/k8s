@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: green
+      version: canary
+  template:
+    metadata:
+      labels:
+        app: green
+        version: canary
+    spec:
+      containers:
+      - name: green
+        image: elevy99927/color:green
