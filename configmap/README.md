@@ -41,7 +41,7 @@ kubectl create configmap app-config --from-literal=APP_MODE=production --from-li
 
 #### A. As Environment Variables
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
