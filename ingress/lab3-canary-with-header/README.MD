@@ -102,7 +102,7 @@ spec:
 
 ---
 ### **Back to Ingress session**
-<A href="./Chapter-10.md">Ingress Controllers and Resources</A>
+<A href="https://github.com/elevy99927/k8s/blob/main/docs/Chapter-10.md">Ingress Controllers and Resources</A>
 
 ---
 ## **Contact**
