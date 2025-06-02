@@ -168,7 +168,7 @@ curl -H "x-canary: always" http://<EXTERNAL-IP>/green
 
 
 **LAB Solution**
-[https://github.com/elevy99927/k8s/tree/main/ingress/lab3-canary-with-header](Canary Deployment Using Header Solution)
+<a href="https://github.com/elevy99927/k8s/tree/main/ingress/lab3-canary-with-header">Canary Deployment Using Header Solution</A>
 
 
 ---
