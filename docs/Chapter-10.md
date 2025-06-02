@@ -173,9 +173,7 @@ curl -H "x-canary: always" http://<EXTERNAL-IP>/green
 
 ---
 
-### 5. Suggested Advanced Lab
-
-**Secure Ingress with TLS**
+### 5. Advanced Lab - Secure Ingress with TLS**
 
 Objective: Use a self-signed certificate to encrypt traffic.
 
@@ -188,7 +186,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -out tls.crt -keyout tls.key -subj "/CN=example.com/O=example"
 ```
 
-2. Create secret:
+2. Create secret with your tls key:
 
 ```sh
 kubectl create secret tls tls-secret --key tls.key --cert tls.crt
