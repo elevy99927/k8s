@@ -27,7 +27,7 @@ spec:
     app: green
   ports:
   - port: 80
-    targetPort: 5678
+    targetPort: 80
 ---
 # red-deployment.yaml
 apiVersion: apps/v1
@@ -58,4 +58,4 @@ spec:
     app: red
   ports:
   - port: 80
-    targetPort: 5678
+    targetPort: 80
