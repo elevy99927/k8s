@@ -3,9 +3,8 @@ kind: Ingress
 metadata:
   name: color-ingress-canary
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/canary: "true"
-    nginx.ingress.kubernetes.io/canary-weight: "20"
+    nginx.ingress.kubernetes.io/canary-by-header: "x-canary"
 spec:
   ingressClassName: nginx
   rules:
