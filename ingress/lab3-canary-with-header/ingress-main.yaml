@@ -1,11 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: color-ingress-canary
+  name: color-ingress-stable
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/canary: "true"
-    nginx.ingress.kubernetes.io/canary-weight: "20"
 spec:
   ingressClassName: nginx
   rules:
@@ -15,6 +13,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: green
+            name: red
             port:
               number: 80
