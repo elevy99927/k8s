@@ -7,4 +7,4 @@ For questions or feedback, feel free to reach out:
 
 ---
 ### **Next Steps**
-<A href="./Chapter-02.md">Key Kubernetes Components </A>
+<A href="https://github.com/elevy99927/Jenkins-k8s/tree/main/Part1-package-manager">Package managment</A>

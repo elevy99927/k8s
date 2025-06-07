@@ -123,7 +123,7 @@ This course is designed to give participants a deep understanding of Kubernetes,
     - Resource usage tracking and optimization
     - Hands-on: Deploy monitoring stack and configure basic alerts
 
-19. **Package Management**
+19. **[Package Management](https://github.com/elevy99927/Jenkins-k8s/tree/main/Part1-package-manager)**
     - Node.js: Covers dependency management using package.json
     - Python: Utilizes requirements.txt and virtual environments
     - Maven: Demonstrates Java project management with pom.xml
