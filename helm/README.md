@@ -237,7 +237,71 @@ Reuse your Helm chart using **Built-in Objects.**
 
 ---
 
-Lab 3
+
+
+### Lab 3: Dynamic ConfigMap with values.yaml
+
+**Objective:**
+Make your ConfigMap dynamic by sourcing values from `values.yaml`.
+
+**About values.yaml:**
+The `values.yaml` file allows you to define configuration values that can be referenced inside your Helm chart templates. By using these values, you can easily customize Kubernetes manifests for different environments, override defaults at install/upgrade time, and keep your templates reusable and DRY.
+
+* Example:
+
+  ```yaml
+  dbname: "db-mysql"
+  dbtable: "music"
+  image: "nginx"
+  tag: "1.25"
+  ```
+* You can override these at install time:
+
+  ```sh
+  helm install myapp ./myapp --set dbname=customdb
+  ```
+
+**Steps:**
+
+1. **Edit values.yaml:**
+   Add the following values to your `myapp/values.yaml`:
+
+   ```yaml
+   dbname: "db-mysql"
+   dbtable: "music"
+   image: "nginx"
+   tag: "1.25"
+   ```
+2. **Edit configmap.yaml:**
+   Update `myapp/templates/configmap.yaml` to reference the values from `values.yaml`:
+
+   ```yaml
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: {{ .Release.Name }}-cm
+   data:
+     dbname: {{ .Values.dbname }}
+     dbtable: {{ .Values.dbtable }}
+     image: {{ .Values.image }}:{{ .Values.tag }}
+     k8s: {{ .Capabilities.KubeVersion }}
+   ```
+3. **Install the chart:**
+
+   ```sh
+   helm install myapp ./myapp
+   ```
+
+**Validation:**
+
+* Check the ConfigMap:
+
+  ```sh
+  kubectl get configmap
+  kubectl get configmap myapp-cm -o yaml
+  ```
+
+---
 
 Lab 4 
 
