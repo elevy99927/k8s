@@ -17,6 +17,9 @@ spec:
       containers:
       - name: attacker
         image: busybox
+        command: ["sh", "-c", "while true; do sleep 3600; done"]
+
+
 ---
 # web-deployment.yaml
 apiVersion: apps/v1
