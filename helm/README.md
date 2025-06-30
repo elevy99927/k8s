@@ -1,4 +1,3 @@
-
 # Helm Tutorial for Kubernetes
 
 ---
@@ -7,15 +6,13 @@
 
 A **package manager** is a tool that automates installing, upgrading, configuring, and removing software applications. In traditional software, package managers like `apt` (Ubuntu), `yum` (RHEL), or `npm` (Node.js) simplify managing software dependencies and updates.
 
-**In Kubernetes:**
-A package manager helps you manage complex Kubernetes applications by grouping multiple resource manifests and templates together, making installation and upgrades easy and repeatable.
+**In Kubernetes:** A package manager helps you manage complex Kubernetes applications by grouping multiple resource manifests and templates together, making installation and upgrades easy and repeatable.
 
 ---
 
 ## 2. Why Helm?
 
-**Helm** is the de-facto package manager for Kubernetes.
-It solves several challenges in Kubernetes deployments:
+**Helm** is the de‑facto package manager for Kubernetes. It solves several challenges in Kubernetes deployments:
 
 * **Template Reuse:** Parameterize YAML with variables.
 * **Consistency:** Avoid manual YAML editing for each environment.
@@ -25,35 +22,23 @@ It solves several challenges in Kubernetes deployments:
 
 **Example Use Cases:**
 
-* Deploying Nginx, databases, monitoring tools (Prometheus, Grafana), or in-house apps.
+* Deploying Nginx, databases, monitoring tools (Prometheus, Grafana), or in‑house apps.
 * Managing different configs (dev, staging, prod) with a single source.
 
 ---
 
 ## 3. Helm Alternatives
 
-* **Kustomize:**
-  Built-in to `kubectl`. Focuses on patching YAMLs for different environments. Simpler, but less powerful templating.
-* **Kapp (from Carvel):**
-  Focus on simple app lifecycle, dependency management, and auditability.
-* **Operator Frameworks (e.g., Operator SDK, OLM):**
-  For more complex applications requiring custom logic.
-* **DIY Scripting (kubectl + Bash/Python):**
-  Used, but lacks consistency, templating, and release management features of Helm.
-
-*Most large-scale production teams use Helm due to its ecosystem and power.*
+* **Kustomize:** Built‑in to `kubectl` — focuses on patching YAMLs for different environments.
+* **Kapp (Carvel):** Simple app lifecycle and dependency management.
+* **Operator Frameworks (Operator SDK, OLM):** For advanced, domain‑specific controllers.
+* **DIY Scripting (kubectl + Bash/Python):** Works, but lacks templating and release management.
 
 ---
 
 ## 4. [ArtifactHub.io](https://artifacthub.io/)
 
-[Artifact Hub](https://artifacthub.io/) is the central public repository for Kubernetes Helm charts, OLM operators, and other artifacts.
-
-* **Discover:** Find charts for common apps (nginx, prometheus, postgres, etc.)
-* **Install:** Follow copy-paste instructions to install directly with Helm.
-* **Publish:** Teams can share and maintain their own charts for the community.
-
-*Example: Search "nginx" → pick a chart → see install/upgrade/values info.*
+Central public repository for Helm charts and other Kubernetes artifacts.
 
 ---
 
@@ -65,99 +50,66 @@ It solves several challenges in Kubernetes deployments:
 myapp/
 ├── Chart.yaml       # Metadata (name, version, description)
 ├── values.yaml      # Default config values
-└── templates/       # Parameterized resource templates (YAML)
+└── templates/       # Parameterized Kubernetes manifests
 ```
 
-### Values
+### Values & Overrides
 
-* **values.yaml** – default values for all parameters.
-* **values-dev.yaml** – alternative values for dev/testing environments.
-* **Override Values at Install/Upgrade:**
+* `values.yaml` – defaults
+* Override with extra files (`-f values-dev.yaml`) or `--set key=value`
 
-  * `helm install myapp ./myapp -f values-dev.yaml`
-  * `helm install myapp ./myapp --set image.tag=1.2.3`
+### Chart Lifecycle
 
-### Chart Installation Flow
-
-1. **Install:**
-   `helm install myapp ./myapp`
-2. **Upgrade:**
-   `helm upgrade myapp ./myapp --set image.tag=2.0.0`
-3. **Rollback:**
-   `helm rollback myapp 1`
-4. **Uninstall:**
-   `helm uninstall myapp`
+1. **Install**  `helm install myapp ./myapp`
+2. **Upgrade**  `helm upgrade myapp ./myapp --set image.tag=2.0.0`
+3. **Rollback** `helm rollback myapp 1`
+4. **Uninstall** `helm uninstall myapp`
 
 ### Best Practices
 
-* Use values files for environment overrides.
-* Template everything (resources, names, labels, env variables).
-* Document values in `values.yaml`.
-* Keep templates DRY (use `_helpers.tpl`).
+* Keep templates DRY using `_helpers.tpl`.
+* Document all values in `values.yaml`.
 * Pin chart versions in production.
 
 ---
 
-## 6. Helm Installation
+## 6. Helm Installation
 
-
-### Install Helm
-
-```
+```bash
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
-
 ```
 
-### Helm config and CLI Basics
-* Run `helm version`, `helm help`.
-* Add the Bitnami repo:
-  `helm repo add bitnami https://charts.bitnami.com/bitnami`
-* Update repo:
-  `helm repo update`
+Basic CLI:
 
-### Deploy Your First Helm Chart
+```bash
+helm version
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+```
 
-* Search for nginx:
-  `helm search repo nginx`
-* Install nginx:
-  `helm install my-nginx bitnami/nginx`
-* Check resources:
-  `kubectl get all`
+---
 
-### Inspect and Upgrade Releases
+## 7. Working with Helm — Hands‑On Labs
 
-* Inspect release:
-  `helm list`, `helm status my-nginx`
-* Upgrade:
-  `helm upgrade my-nginx bitnami/nginx --set service.type=LoadBalancer`
-* Roll back:
-  `helm rollback my-nginx 1`
+Below is the lab sequence exactly as presented in **Helm Part 1**.
 
-## 7. Working with Helm
+### Lab 1 – Create a ConfigMap Using Helm
 
-### Lab 1: Create a ConfigMap Using Helm
+**Goal:** Scaffold a fresh chart and render a simple ConfigMap.
 
-**Objective:**
+1. Create chart skeleton:
 
-Create a simple Helm chart that deploys a Kubernetes ConfigMap using a template.
-
-**Steps:**
-
-1. **Initialize a new chart:**
-
-   ```sh
+   ```bash
    helm create myapp
    ```
-2. **Clean up template directory:**
-   Delete all files in `myapp/templates/`:
+2. Remove default templates:
 
-   ```sh
+   ```bash
    rm -rf myapp/templates/*
    ```
-3. **Create the ConfigMap template:**
-   Create a file called `myapp/templates/configmap.yaml` with the following content:
+3. Add `templates/configmap.yaml`:
 
    ```yaml
    apiVersion: v1
@@ -168,49 +120,23 @@ Create a simple Helm chart that deploys a Kubernetes ConfigMap using a template.
      dbname: "db-mysql"
      dbtable: "music"
    ```
-4. **Install the chart:**
+4. Install and verify:
 
-   ```sh
+   ```bash
    helm install myapp ./myapp
+   kubectl get configmap myapp-cm -o yaml
    ```
-
-**Validation:**
-
-* Check that the ConfigMap was created:
-
-  ```sh
-  kubectl get configmap
-  kubectl get configmap myapp-cm -o yaml
-  ```
-
-Try to install another application.
-
 
 ---
 
-### Lab 2: Reuse ConfigMap Using Helm
+### Lab 2 – Reuse ConfigMap with Built‑in Objects
 
-**Objective:**
+**Goal:** Introduce Helm built‑in objects to make templates reusable.
 
-Reuse your Helm chart using **Built-in Objects.**
+1. Keep chart from Lab 1 (or repeat steps 1–2).
+2. Update `configmap.yaml` to use built‑ins:
 
-[https://helm.sh/docs/chart\_template\_guide/builtin\_objects/](https://helm.sh/docs/chart_template_guide/builtin_objects/)
-
-**Steps:**
-
-1. **Initialize a new chart:**
-
-   ```
-   helm create myapp
-   ```
-2. **Clean up template directory:** Delete all files in `myapp/templates/`:
-
-   ```
-   rm -rf myapp/templates/*
-   ```
-3. **Create the ConfigMap template:** Create a file called `myapp/templates/configmap.yaml` with the following content:
-
-   ```
+   ```yaml
    apiVersion: v1
    kind: ConfigMap
    metadata:
@@ -218,53 +144,23 @@ Reuse your Helm chart using **Built-in Objects.**
    data:
      dbname: "db-mysql"
      dbtable: "music"
-     k8s: {{ .Capabilities.KubeVersion }}
+     kubeVersion: {{ .Capabilities.KubeVersion | quote }}
    ```
-4. **Install the chart:**
+3. Install and verify multiple releases:
 
+   ```bash
+   helm install score ./myapp
+   helm install replay ./myapp
+   kubectl get configmap
    ```
-   helm install myapp ./myapp
-   ```
-
-**Validation:**
-
-* Check that the ConfigMap was created:
-
-  ```
-  kubectl get configmap
-  kubectl get configmap myapp-cm -o yaml
-  ```
 
 ---
 
+### Lab 3 – Dynamic ConfigMap with `values.yaml`
 
+**Goal:** Source data from `values.yaml` and allow overrides at install time.
 
-### Lab 3: Dynamic ConfigMap with values.yaml
-
-**Objective:**
-Make your ConfigMap dynamic by sourcing values from `values.yaml`.
-
-**About values.yaml:**
-The `values.yaml` file allows you to define configuration values that can be referenced inside your Helm chart templates. By using these values, you can easily customize Kubernetes manifests for different environments, override defaults at install/upgrade time, and keep your templates reusable and DRY.
-
-* Example:
-
-  ```yaml
-  dbname: "db-mysql"
-  dbtable: "music"
-  image: "nginx"
-  tag: "1.25"
-  ```
-* You can override these at install time:
-
-  ```sh
-  helm install myapp ./myapp --set dbname=customdb
-  ```
-
-**Steps:**
-
-1. **Edit values.yaml:**
-   Add the following values to your `myapp/values.yaml`:
+1. Add to `values.yaml`:
 
    ```yaml
    dbname: "db-mysql"
@@ -272,56 +168,137 @@ The `values.yaml` file allows you to define configuration values that can be ref
    image: "nginx"
    tag: "1.25"
    ```
-2. **Edit configmap.yaml:**
-   Update `myapp/templates/configmap.yaml` to reference the values from `values.yaml`:
+2. Update `configmap.yaml`:
 
    ```yaml
-   apiVersion: v1
-   kind: ConfigMap
-   metadata:
-     name: {{ .Release.Name }}-cm
    data:
      dbname: {{ .Values.dbname }}
      dbtable: {{ .Values.dbtable }}
      image: {{ .Values.image }}:{{ .Values.tag }}
-     k8s: {{ .Capabilities.KubeVersion }}
    ```
-3. **Install the chart:**
+3. Install & override example:
 
-   ```sh
-   helm install myapp ./myapp
+   ```bash
+   helm install dev ./myapp --set dbname=customdb
    ```
-
-**Validation:**
-
-* Check the ConfigMap:
-
-  ```sh
-  kubectl get configmap
-  kubectl get configmap myapp-cm -o yaml
-  ```
 
 ---
 
-Lab 4 
+### Lab 4 – Using Helm Functions in Templates
 
-Lab 5
+**Goal:** Apply Sprig helper functions for string manipulation.
+*Transform requirements from the slides:*
 
-...
+* `dbname` → uppercase + quote
+* `eat`   → uppercase, truncate to 13 chars, quote
+* `drink` → uppercase
 
-Lab 10
+`values.yaml` sample:
 
-## **References:**
+```yaml
+dbname: musicdb
+eat: spaghetti_al_pesto
+drink: coffee
+```
 
-* [Helm Docs](https://helm.sh/docs/)
+`configmap.yaml` snippet:
+
+```yaml
+data:
+  dbname: {{ quote (upper .Values.dbname) }}
+  eat:    {{ quote (trunc 13 (upper .Values.eat)) }}
+  drink:  {{ quote (upper .Values.drink) }}
+```
+
+Solution repo: [https://github.com/elevy99927/k8s/tree/main/helm/04-functions](https://github.com/elevy99927/k8s/tree/main/helm/04-functions)
+
+---
+
+### Lab 5 – Deployment & Service Templates
+
+**Goal:** Add application Deployment and Service templates.
+
+1. Create `templates/deployment.yaml` and `templates/service.yaml`.
+2. Parameterize via `values.yaml`:
+
+   ```yaml
+   replicaCount: 2
+   image:
+     repository: nginx
+     tag: stable
+   service:
+     type: ClusterIP
+     port: 80
+   ```
+3. Install and test access to Service IP.
+   Solution repo: [https://github.com/elevy99927/k8s/tree/main/helm/05-deployment](https://github.com/elevy99927/k8s/tree/main/helm/05-deployment)
+
+---
+
+### Lab 6 – Add Ingress Template (pre‑work for Ingress Labs)
+
+**Goal:** Extend chart from Lab 5 with an optional Ingress.
+
+1. Append Ingress block in `values.yaml`:
+
+   ```yaml
+   ingress:
+     enabled: false        # toggle
+     host: myapp.local
+     path: /
+     pathType: Prefix
+   ```
+
+2. Create `templates/ingress.yaml` (rendered only when enabled):
+
+   ```yaml
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     name: myapp
+   spec:
+     rules:
+       - host: myapp.local
+         http:
+           paths:
+             - path: /
+               pathType: Prefix
+               backend:
+                 service:
+                   name: myapp
+                   port:
+                     number: 80
+   ```
+
+3. The following parameters will come from values.yaml
+
+   Ingress name: ing-**\<name>**
+
+   Service name: svc-**\<name>**
+
+   Port: **\<port>**
+
+4. Install with Ingress enabled:
+
+   ```bash
+   helm upgrade --install myapp ./mychart \
+     --set ingress.enabled=true \
+     --set ingress.host=myapp.local
+   ```
+
+Solution repo: [https://github.com/elevy99927/k8s/tree/main/helm/06-deploy-ingress](https://github.com/elevy99927/k8s/tree/main/helm/06-deploy-ingress)
+
+---
+
+## References
+
+* [Helm Documentation](https://helm.sh/docs/)
 * [ArtifactHub](https://artifacthub.io/)
 * [Bitnami Helm Charts](https://bitnami.com/stacks/helm)
 
-
 ---
-## **Contact**
-For questions or feedback, feel free to reach out:
-- **Email**: eyal@levys.co.il
-- **GitHub**: [https://github.com/elevy99927](https://github.com/elevy99927)
 
----
+## Contact
+
+* **Email:** [eyal@levys.co.il](mailto:eyal@levys.co.il)
+* **GitHub:** [https://github.com/elevy99927](https://github.com/elevy99927)
