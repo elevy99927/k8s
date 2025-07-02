@@ -290,6 +290,207 @@ Solution repo: [https://github.com/elevy99927/k8s/tree/main/helm/06-deploy-ingre
 
 ---
 
+
+### Lab 8 – Reusable Helpers (`_helpers.tpl`)
+
+**Goal:** Learn how to place common logic in **named templates** inside `_helpers.tpl` so every manifest can call the same helper instead of duplicating code.
+
+#### 8.1 Why helpers?
+
+* Keep templates **DRY** – branding, naming, or label logic lives in one place.
+* Enforce consistency: a single function defines how resources are named or annotated.
+* Easier maintenance: update the helper once, all templates inherit the change.
+
+#### 8.2 Example helper snippet
+
+Below is a minimal helper that returns a fully‑qualified name and standard labels.  Add this to `_helpers.tpl` and then reference it from multiple manifests.
+
+```tpl
+{{- define "mychart.fullname" -}}
+{{ printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "mychart.labels" -}}
+app.kubernetes.io/name: {{ include "mychart.fullname" . }}
+helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+```
+
+Usage in a Deployment manifest:
+
+```yaml
+metadata:
+  name: {{ include "mychart.fullname" . }}
+  labels:
+{{ include "mychart.labels" . | indent 4 }}
+```
+
+#### 8.3 Task (no solution here)
+
+Create a `_helpers.tpl` file that provides at least two named templates:
+
+1. **`{{ include "mychart.fullname" . }}`** → returns a stable release‑aware name.
+2. **`{{ include "mychart.labels" . }}`** → returns a map of standard labels.
+
+Update your Deployment, Service, and Ingress templates to use these helpers instead of hard‑coding names and labels.
+
+Repository link for reference solution ➜ [https://github.com/elevy99927/k8s/tree/main/helm/08-helpers](https://github.com/elevy99927/k8s/tree/main/helm/08-helpers)
+
+#### 8.3 Advanced helper usage example
+
+Below is an illustrative helper that appends a region suffix **or** the Kubernetes major.minor version.
+
+```tpl
+{{/* Append region or kube version suffix */}}
+{{- define "mychart.envSuffix" -}}
+{{- if .Values.region }}
+{{ printf "-%s" (.Values.region | lower) }}
+{{- else if .Capabilities.KubeVersion.GitVersion }}
+{{ printf "-k%s" (.Capabilities.KubeVersion.Minor | trimPrefix "v") }}
+{{- else }}
+{{ "" }}
+{{- end -}}
+{{- end }}
+```
+
+Usage in a Deployment name:
+
+```yaml
+metadata:
+  name: {{ include "mychart.fullname" . }}{{ include "mychart.envSuffix" . }}
+```
+---
+# Helm Tutorial – Lab 9: Hooks
+
+---
+
+## 9.1 What Are Hooks?
+
+Helm **hooks** are special Kubernetes resources that run at predefined points in a release lifecycle (e.g., *pre‑install*, *post‑install*, *pre‑upgrade*, *post‑delete*, and *test*). They allow you to:
+
+* Perform initialization logic **before** a chart is installed or upgraded.
+* Validate cluster state **after** installation through test jobs.
+* Run clean‑up logic when a release is deleted or rolled back.
+
+Hooks give chart authors a way to orchestrate jobs or tasks **outside** the main release objects without polluting the standard resource set.
+
+---
+
+## 9.2 Reference Documentation
+
+For the full list of lifecycle points, annotations, and policies, see:
+[https://helm.sh/docs/topics/charts\_hooks/](https://helm.sh/docs/topics/charts_hooks/)
+
+---
+
+## 9.3 Key Hook Annotations Explained
+
+```yaml
+annotations:
+  # Marks this resource as a hook. Otherwise it becomes a normal release object.
+  "helm.sh/hook": pre-install,pre-upgrade,test
+
+  # Lower numbers run earlier; higher numbers run later when multiple hooks have the same phase.
+  "helm.sh/hook-weight": "1"
+
+  # Automatically delete hook resources when the hook succeeds (keeps the cluster clean).
+  "helm.sh/hook-delete-policy": hook-succeeded
+```
+
+| Annotation                       | Purpose                                                                                                                                                                          |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`helm.sh/hook`**               | Comma‑separated list of lifecycle points when the resource should run. In this example the Job will run **before installation**, **before upgrade**, and **during chart tests**. |
+| **`helm.sh/hook-weight`**        | Controls execution order *within the same lifecycle point*. Lower weight runs first.                                                                                             |
+| **`helm.sh/hook-delete-policy`** | Dictates when Helm should delete the hook resource. `hook‑succeeded` cleans up only once the Job completes successfully.                                                         |
+
+---
+
+## 9.4 Scenario – `post-install-job.yaml` with Hooks
+
+Imagine you need to **seed a database** or **run a smoke test** every time your application is installed or upgraded. You can package that logic in a *Job* and wire it to Helm’s lifecycle hooks.
+
+1. **Chart structure** (simplified):
+
+   ```text
+   mychart/
+   ├── templates/
+   │   ├── deployment.yaml
+   │   ├── service.yaml
+   │   └── post-install-job.yaml   <-- hook Job
+   └── values.yaml
+   ```
+2. **Hook execution flow**
+
+   * *pre‑install*: Job runs **before** Helm creates the Deployment/Service, verifying prerequisites.
+   * *pre‑upgrade*: Same Job runs **before** upgrading an existing release, preventing bad migrations.
+   * *test*: When you call `helm test <release>`, the Job executes again as an integration test.
+3. **Automatic clean‑up** thanks to `hook‑succeeded` keeps the cluster tidy.
+4. **Fail‑fast behaviour** – If the Job fails (non‑zero exit code), the entire install/upgrade fails, protecting production.
+
+### **Solution**
+
+A working example can be found in the repo under: [https://github.com/elevy99927/k8s/tree/main/helm/09-hooks](https://github.com/elevy99927/k8s/tree/main/helm/09-hooks)
+
+Use this as a reference for crafting your own hook‑based workflows.
+
+---
+Lab 10 – NOTES.txt and .Capabilities
+
+Goal: Demonstrate how to deliver dynamic post‑install guidance using Helm’s NOTES.txt template and the .Capabilities object.
+
+10.1 What is NOTES.txt?
+
+NOTES.txt is a special Helm template rendered after an install or upgrade. Its output is printed to the user’s console.
+
+It lets chart authors surface endpoints, credentials, or follow‑up commands without cluttering Kubernetes manifests.
+
+Being a template, it supports {{ ... }} logic, functions, and access to chart values.
+
+10.2 Why use NOTES.txt?
+
+Onboarding: Give immediate next‑steps (e.g., kubectl port‑forward, browser URLs).
+
+Contextual info: Show different instructions depending on service type, ingress enablement, or cluster version.
+
+Automation hints: CI pipelines can parse the output for dynamic environment details.
+
+10.3 Mini Example
+
+CHART NAME: {{ .Chart.Name }}
+RELEASE NAME: {{ .Release.Name }}
+
+{{- if .Values.ingress.enabled }}
+Your application is exposed via Ingress → http://{{ .Values.ingress.host }}/
+{{- else }}
+Service Type: {{ .Values.service_type }}
+Run: kubectl port-forward svc/{{ include "mychart.fullname" . }} 8080:80
+{{- end }}
+
+Kubernetes version: {{ .Capabilities.KubeVersion.Major }}.{{ .Capabilities.KubeVersion.Minor }}
+
+10.4 Lab Task (No solution here)
+
+Create or modify a NOTES.txt template that:
+
+Prints the chart name, release name, and chart version.
+
+Detects whether ingress.enabled is true.
+
+If true, show the host and path.
+
+If false, show a port‑forward command based on the service name and port.
+
+Uses .Capabilities.APIVersions.Has to display which Ingress API (networking.k8s.io/v1 or v1beta1) the cluster supports.
+
+Formats the database name from Values.database_prod.dbname in uppercase quotes using the upper and quote functions.
+
+Solution Repository: (see example implementation)https://github.com/elevy99927/k8s/tree/main/helm/10-notes
+
+
+---
+
 ## References
 
 * [Helm Documentation](https://helm.sh/docs/)
