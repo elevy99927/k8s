@@ -100,10 +100,10 @@ This course is designed to give participants a deep understanding of Kubernetes,
 ### Advanced Kubernetes & DevOps
 **Goal**: Learn production-grade scaling, security, and Kubernetes CI/CD workflows
 
-15. **Auto-Scaling Applications**
+15. **[Auto-Scaling Applications](https://github.com/elevy99927/k8s/tree/main/hpa)**
     - Horizontal vs. Vertical Pod Autoscaler (HPA, VPA)
     - Cluster Autoscaler concepts
-    - Hands-on: Configure HPA for an application workload - https://github.com/elevy99927/k8s/tree/main/hpa
+    - Hands-on: Configure HPA for an application workload
 
 16. **Kubernetes Permissions**
     - Kubernetes RBAC (Role-Based Access Control)
