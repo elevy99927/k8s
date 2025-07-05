@@ -77,7 +77,7 @@ This course is designed to give participants a deep understanding of Kubernetes,
 
 ### Application Lifecycle & Helm
 
-11. **Managing Applications with Helm**
+11. **[Managing Applications with Helm](https://github.com/elevy99927/k8s/tree/main/helm)**
     - Helm basics: Charts, Repositories, and Templating
     - Installing Helm and deploying applications
     - Advanced Helm: Custom Helm charts, values templating
