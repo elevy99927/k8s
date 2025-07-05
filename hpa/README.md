@@ -139,4 +139,4 @@ For questions or feedback, feel free to reach out:
 
 ---
 ### **Next Steps**
-<A href="../Chapter-16.md">Kubernetes Permissions</A>
+<A href="../docs/Chapter-16.md">Kubernetes Permissions</A>
