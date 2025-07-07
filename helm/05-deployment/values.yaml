@@ -11,7 +11,7 @@ replicas: 1
 
 
 pod:
-  image: "yanivomc/spring-music"
-  tag: "latest"
+  image: "elevy99927/color"
+  tag: "red"
   target_port: 8080
   port: 80
