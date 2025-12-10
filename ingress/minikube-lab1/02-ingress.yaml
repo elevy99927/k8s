@@ -1,0 +1,26 @@
+# ingress-red-yellow.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: color-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /red
+        pathType: Prefix
+        backend:
+          service:
+            name: red
+            port:
+              number: 80
+      - path: /yellow
+        pathType: Prefix
+        backend:
+          service:
+            name: yellow
+            port:
+              number: 80

@@ -1,0 +1,64 @@
+---
+# yellow-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yellow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yellow
+  template:
+    metadata:
+      labels:
+        app: yellow
+    spec:
+      containers:
+      - name: yellow
+        image: hashicorp/http-echo
+        args:
+        - "-text=YELLOW"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yellow
+spec:
+  selector:
+    app: yellow
+  ports:
+  - port: 80
+    targetPort: 5678
+---
+# red-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: red
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: red
+  template:
+    metadata:
+      labels:
+        app: red
+    spec:
+      containers:
+      - name: red
+        image: hashicorp/http-echo
+        args:
+        - "-text=RED"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: red
+spec:
+  selector:
+    app: red
+  ports:
+  - port: 80
+    targetPort: 5678
