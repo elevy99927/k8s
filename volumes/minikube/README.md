@@ -115,3 +115,42 @@ kubectl describe pvc,pv
 ```
 
 You will see that the PVC `my-pvc` is now in a `Bound` state and is bound to a dynamically created PV. The PV will also show its status as `Bound` to the `my-pvc` claim. This confirms that the storage is ready and attached, allowing the Pod to run.
+
+```bash
+#kubectl describe pv
+...
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      100Mi
+Access Modes:  RWO
+VolumeMode:    Filesystem
+Used By:       pv-pod
+Events:
+  Type    Reason                 Age    From                                                                    Message
+  ----    ------                 ----   ----                                                                    -------
+  Normal  Provisioning           4m12s  k8s.io/minikube-hostpath_minikube_26361250-4f59-48cf-8902-130db50de609  External provisioner is provisioning volume for claim "default/my-pvc"
+  Normal  ExternalProvisioning   4m12s  persistentvolume-controller                                             Waiting for a volume to be created either by the external provisioner 'k8s.io/minikube-hostpath' or manually by the system administrator. If volume creation is delayed, please verify that the provisioner is running and correctly registered.
+  Normal  ProvisioningSucceeded  4m12s  k8s.io/minikube-hostpath_minikube_26361250-4f59-48cf-8902-130db50de609  Successfully provisioned volume pvc-32939c88-4e40-4075-b773-837eb24e187a
+
+
+---
+
+#kubectl describe pv
+Name:            pvc-32939c88-4e40-4075-b773-837eb24e187a
+Labels:          <none>
+Annotations:     hostPathProvisionerIdentity: 6b8ce295-6b0f-41fe-b2af-4ec24711ec98
+                 pv.kubernetes.io/provisioned-by: k8s.io/minikube-hostpath
+Finalizers:      [kubernetes.io/pv-protection]
+StorageClass:    standard
+Status:          Bound
+Claim:           default/my-pvc
+Reclaim Policy:  Delete
+Access Modes:    RWO
+VolumeMode:      Filesystem
+Capacity:        100Mi
+Node Affinity:   <none>
+Message:         
+Source:
+    Type:          HostPath (bare host directory volume)
+    Path:          /tmp/hostpath-provisioner/default/my-pvc
+    HostPathType:  
+Events:            <none>
