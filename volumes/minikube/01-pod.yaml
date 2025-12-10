@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: shared-data-pod
+  name: pv-pod
+spec:
+  containers:
+  - name: writer
+    image: busybox
+    command: ["sh", "-c", "echo shared data > /data/hello.txt; sleep 3600"]
+    volumeMounts:
+    - mountPath: /data-1
+      name: shared-volume
+    - mountPath: /data
+      name: my-storage
+  - name: reader
+    image: busybox
+    command: ["sh", "-c", "sleep 5; cat /data/hello.txt; sleep 3600"]
+    volumeMounts:
+    - mountPath: /data-2
+      name: shared-volume
+
+    - mountPath: /data
+      name: my-storage
+  volumes:
+  - name: shared-volume
+    emptyDir: {}
+  - name: my-storage
+    persistentVolumeClaim:
+      claimName: my-pvc
+
