@@ -29,7 +29,8 @@ Get the IP address of your Minikube cluster and use `sed` to substitute it into 
 
 ```bash
 export MINIKUBE_IP=$(minikube ip)
-sed "s/MINIKUBE_IP/$MINIKUBE_IP/g" 02-ingress.template.yaml | kubectl apply -f -
+sed "s/MINIKUBE_IP/$MINIKUBE_IP/g" 02-ingress.template.yaml 
+kubectl apply -f 02-ingress.template.yaml 
 ```
 
 ### 4. Test the Ingress Routes
