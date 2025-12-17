@@ -20,7 +20,7 @@ minikube addons enable ingress
 From within this directory (`./ingress/minikube-lab2`), apply the first YAML file to create the backend applications.
 
 ```bash
-kubectl apply -f 01-deployments-services.yaml
+kubectl apply -f 01-service-deployment.yaml
 ```
 
 ### 3. Generate and Apply the Ingress Manifest
@@ -29,8 +29,8 @@ Get the IP address of your Minikube cluster and use `sed` to substitute it into 
 
 ```bash
 export MINIKUBE_IP=$(minikube ip)
-sed "s/MINIKUBE_IP/$MINIKUBE_IP/g" 02-ingress.template.yaml 
-kubectl apply -f 02-ingress.template.yaml 
+sed "s/MINIKUBE_IP/$MINIKUBE_IP/g" 02-ingress.yaml 
+kubectl apply -f 02-ingress.yaml 
 ```
 
 ### 4. Test the Ingress Routes
