@@ -1,4 +1,3 @@
-
 # Kubernetes Course
 
 ## Course Overview
