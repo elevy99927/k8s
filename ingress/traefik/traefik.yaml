@@ -1,4 +1,12 @@
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: "2026-08-12T18:02:34Z"
+  labels:
+    kubernetes.io/metadata.name: traefik
+  name: traefik
+---
 # Source: traefik/templates/rbac/serviceaccount.yaml
 kind: ServiceAccount
 apiVersion: v1
